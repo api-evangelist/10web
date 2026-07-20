@@ -1,0 +1,35 @@
+generated: '2026-07-17'
+method: searched
+source: https://apidocs.10web.io/ (OpenAPI Authorization parameter) + https://help.10web.io/hc/en-us/articles/27304964365586-Introduction-to-10Web-API
+api: 10Web API V1
+summary: >-
+  The 10Web API authenticates every request with a static API key sent in the
+  x-api-key HTTP request header. Reseller/partner API keys are issued from the
+  10Web Dashboard. Webhook deliveries are separately verified with an HMAC-SHA256
+  signature computed from a per-endpoint webhook secret (whsec_ prefix).
+schemes:
+- id: api-key
+  type: apiKey
+  in: header
+  name: x-api-key
+  required: true
+  description: >-
+    API key for authentication. Passed as the x-api-key request header on every
+    call to https://api.10web.io. Obtain the key from the 10Web Reseller
+    Dashboard. Missing or invalid keys return HTTP 401 with
+    {"status":"error","message":"Unauthorized access"}.
+  applies_to: all operations
+webhook_verification:
+  method: HMAC-SHA256
+  header: x-10web-signature
+  format: 'v1=HMAC_SHA256_HEX(webhook_secret, timestamp + "." + raw_body)'
+  secret_prefix: whsec_
+  note: >-
+    Webhook signatures use the per-endpoint webhook secret (not the API key).
+    The secret is generated on first save of a webhook URL in the dashboard.
+notes:
+- No OAuth 2.0 / OpenID Connect flow is documented; the API uses a single static
+  API-key credential.
+- The OpenAPI document declares the credential as a shared header parameter
+  (components.parameters.Authorization -> name x-api-key) rather than a formal
+  securityScheme, so it is captured here from the spec + docs.
