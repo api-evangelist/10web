@@ -1,0 +1,922 @@
+openapi: 3.0.0
+info:
+  title: 10Web API V1 Account Website API
+  description: 'The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web''s powerful hosting and website management capabilities into your own applications.
+
+    '
+servers:
+- url: https://api.10web.io
+tags:
+- name: Website
+  description: Operations for website creation and management
+paths:
+  /v1/hosting/website:
+    post:
+      summary: Create a website
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWebsiteRequest'
+      responses:
+        '200':
+          description: Website created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebsiteResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/user_info:
+    get:
+      summary: Get user info for a website
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: User info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfoResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/instance-info:
+    get:
+      summary: Get instance info for a website
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Instance info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceInfoResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/staging/enable:
+    post:
+      summary: Enable staging for a website
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Staging enabled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{staging_website_id}/staging/disable:
+    post:
+      summary: Disable staging for a website
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/StagingWebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Staging disabled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{staging_website_id}/push-to-live:
+    post:
+      summary: Push changes to live environment
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/StagingWebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Migration completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/push-to-staging:
+    post:
+      summary: Push changes to staging environment
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Changes pushed to staging successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/enable:
+    post:
+      summary: Enable a website
+      description: "Enables a website and makes it accessible. If the website has staging enabled, \nthe staging environment will also be enabled along with the main website.\n"
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Website enabled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/disable:
+    post:
+      summary: Disable a website
+      description: "Disables a website and makes it inaccessible. If the website has staging enabled, \nboth the main website and staging environment will be disabled.\n"
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Website disabled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/update-builder:
+    post:
+      summary: Update tenweb-builder plugin for a website
+      description: "Updates the AI builder plugin to the latest version for a specific website. \nThis endpoint automatically detects whether the website is live or staging and updates \nthe appropriate environment accordingly.\n"
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Plugin updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                    description: Status of the operation
+                  message:
+                    type: string
+                    description: Success message
+                example:
+                  status: ok
+                  message: Plugin updated successfully
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/update-wvc-theme:
+    post:
+      summary: Update wvc-theme for a website
+      description: 'Updates the WVC theme to the latest version for a specific website.
+
+        This endpoint automatically detects whether the website is live or staging and updates
+
+        the appropriate environment accordingly.
+
+        '
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Theme updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                    description: Status of the operation
+                  data:
+                    type: object
+                    properties:
+                      version:
+                        type: string
+                        description: Version of the installed theme
+                        example: 1.2.3
+                      message:
+                        type: string
+                        description: Success message
+                        example: WVC theme updated successfully
+              example:
+                status: ok
+                data:
+                  version: 1.2.3
+                  message: WVC theme updated successfully
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/logs:
+    get:
+      summary: Get logs for a website
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      - name: type
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - access
+          - error
+          - php
+        description: Type of log to retrieve
+      - name: lines
+        in: query
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 20000
+          default: 500
+        description: Number of log lines to retrieve
+      responses:
+        '200':
+          description: Website logs retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                    - error
+                  logs:
+                    type: string
+                    description: Log content
+                example:
+                  status: ok
+                  logs: '192.168.1.1 - - [10/Jun/2023:13:55:36 +0000] "GET /wp-admin/ HTTP/1.1" 200 2326 "-" "Mozilla/5.0"
+
+                    [10/Jun/2023:14:22:11 +0000] [error] 29#29: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error"'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/password-protection:
+    post:
+      summary: Toggle password protection for a website
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - action
+              properties:
+                action:
+                  type: string
+                  description: Action to perform on password protection
+                  enum:
+                  - enable
+                  - disable
+                  example: enable
+      responses:
+        '200':
+          description: Password protection toggled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                  message:
+                    type: string
+                    description: Success message
+                example:
+                  status: ok
+                  message: successfully enabled
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/whitelist/ip:
+    post:
+      summary: Whitelist IP address for password-protected website
+      description: Adds an IP address to the whitelist for a password-protected website, allowing access without password authentication
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - ip
+              properties:
+                ip:
+                  type: string
+                  description: IP address to whitelist
+                  example: 192.168.1.1
+      responses:
+        '200':
+          description: IP address successfully whitelisted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                  message:
+                    type: string
+                    description: Success message
+                example:
+                  status: ok
+                  message: Successfully whitelisted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/settings:
+    get:
+      summary: Get website settings
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Website settings retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                    - error
+                  data:
+                    type: object
+                    properties:
+                      cache_enabled:
+                        type: boolean
+                        description: Whether FastCGI cache is enabled
+                      cache_time:
+                        type: integer
+                        description: Cache time in minutes
+                      id:
+                        type: integer
+                        description: Website ID
+                      object_cache:
+                        type: boolean
+                        description: Whether object cache is enabled
+                      php_version:
+                        type: string
+                        description: PHP version used by the website
+                      staging_enabled:
+                        type: boolean
+                        description: Whether staging environment is enabled
+                      password_protection:
+                        type: boolean
+                        description: Whether password protection is enabled
+                example:
+                  status: ok
+                  data:
+                    cache_enabled: true
+                    cache_time: 720
+                    id: 781219
+                    object_cache: true
+                    php_version: '8.3'
+                    staging_enabled: false
+                    password_protection: false
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/storage:
+    get:
+      summary: Get storage information for a website
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Storage information retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                    - error
+                  db_size:
+                    type: integer
+                    description: Database storage used in bytes
+                  files_size:
+                    type: integer
+                    description: Files storage used in bytes
+                example:
+                  status: ok
+                  db_size: 2064384
+                  files_size: 128566495
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/visitors:
+    get:
+      summary: Get visitor statistics for a website
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      - name: period
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - day
+          - week
+          - month
+          - year
+          default: month
+        description: Time period for visitor statistics
+      responses:
+        '200':
+          description: Visitor statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                    - error
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        count:
+                          type: integer
+                          description: Number of visitors for that date
+                        date:
+                          type: string
+                          format: date
+                          description: Date in YYYY-MM-DD format
+                  start_date:
+                    type: string
+                    format: date-time
+                    description: Start date of the statistics period
+                  end_date:
+                    type: string
+                    format: date-time
+                    description: End date of the statistics period
+                  sum:
+                    type: integer
+                    description: Total number of visitors in the period
+                example:
+                  status: ok
+                  data:
+                  - count: 2
+                    date: '2025-05-29'
+                  - count: 5
+                    date: '2025-05-30'
+                  - count: 8
+                    date: '2025-05-31'
+                  - count: 3
+                    date: '2025-06-01'
+                  start_date: Fri, 23 May 2025 00:00:00 GMT
+                  end_date: Mon, 23 Jun 2025 00:00:00 GMT
+                  sum: 18
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/clone:
+    post:
+      summary: Clone a website to a new subdomain
+      description: "Creates a copy of an existing website with a new subdomain. This operation \nmigrates the website to a new location while preserving the original website.\n"
+      tags:
+      - Website
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - subdomain
+              - website_id
+              - region
+              properties:
+                subdomain:
+                  type: string
+                  description: The new subdomain for the cloned website
+                  example: pleased-adder-1
+                website_id:
+                  type: integer
+                  description: The ID of the website to clone
+                  example: 1269062
+                region:
+                  type: string
+                  description: The target region for the cloned website
+                  example: us-central1-c
+      responses:
+        '200':
+          description: Website clone operation started successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                    description: Operation status
+                example:
+                  status: ok
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+  schemas:
+    UserInfoResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: object
+          properties:
+            mysql:
+              type: object
+              properties:
+                db_name:
+                  type: string
+                  description: Database name
+                password:
+                  type: string
+                  description: Database password
+                path:
+                  type: string
+                  description: PHP admin URL
+                type:
+                  type: string
+                  enum:
+                  - mysql
+                username:
+                  type: string
+                  description: Database username
+            sftp:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: SFTP password
+                port:
+                  type: integer
+                  description: SFTP port number
+                type:
+                  type: string
+                  enum:
+                  - sftp
+                username:
+                  type: string
+                  description: SFTP username
+      example:
+        status: ok
+        data:
+          mysql:
+            db_name: DB_NAME
+            password: DB_PASSWORD
+            path: PHP_ADMIN_URL
+            type: mysql
+            username: USERNAME
+          sftp:
+            password: SFTP_PASS
+            port: 22
+            type: sftp
+            username: SFTP_USERNAME
+    WebsiteResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: object
+          properties:
+            website_id:
+              type: integer
+              description: The ID of the created website
+      example:
+        status: ok
+        data:
+          website_id: 15604
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+      example:
+        status: ok
+    InstanceInfoResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: object
+          properties:
+            ip:
+              type: string
+              description: IP address of the instance
+            location:
+              type: string
+              description: Full name of the region
+            region:
+              type: string
+              description: Region identifier of the instance
+      example:
+        status: ok
+        data:
+          ip: 34.172.74.94
+          location: Council Bluffs, Iowa, USA
+          region: us-central1-c
+    CreateWebsiteRequest:
+      type: object
+      required:
+      - subdomain
+      - region
+      - site_title
+      - admin_username
+      - admin_password
+      properties:
+        subdomain:
+          type: string
+          description: Subdomain for the website (3-63 characters, lowercase letters, numbers, and hyphens only)
+        region:
+          type: string
+          description: Region of the website
+        site_title:
+          type: string
+          description: Title of the website
+        admin_username:
+          type: string
+          description: Admin username for the website (max 60 characters, can contain alphanumeric characters, space, _, ., -, *, @)
+        admin_password:
+          type: string
+          description: Admin password for the website (must contain 1 lowercase, 1 uppercase, 1 digit, minimum 8 chars)
+        is_demo:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: Specifies if this website is a demo (0 = regular website, 1 = demo website)
+        demo_domain_delete_after_days:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 7
+          description: Number of days after which demo website will be deleted (only applicable when is_demo = 1)
+        enable_wp_ai_generation:
+          type: boolean
+          description: Enable AI website builder functionality in WordPress admin panel
+          default: false
+  parameters:
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
+    StagingWebsiteId:
+      name: staging_website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer

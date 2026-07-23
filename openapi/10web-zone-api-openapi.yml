@@ -1,0 +1,496 @@
+openapi: 3.0.0
+info:
+  title: 10Web API V1 Account Zone API
+  description: 'The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web''s powerful hosting and website management capabilities into your own applications.
+
+    '
+servers:
+- url: https://api.10web.io
+tags:
+- name: Zone
+  description: Operations for DNS zone management
+paths:
+  /v1/hosting/zone:
+    get:
+      summary: Get zones
+      tags:
+      - Zone
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: List of zones
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZoneListResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/zone/available:
+    get:
+      summary: Get all available zones
+      tags:
+      - Zone
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: List of available zones
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableZonesResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/zone/{zone_id}/records:
+    get:
+      summary: Get all DNS records for a zone
+      tags:
+      - Zone
+      parameters:
+      - $ref: '#/components/parameters/ZoneId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: List of DNS records for the zone
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                    - error
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Record'
+                example:
+                  status: ok
+                  data:
+                  - id: 12345
+                    name: example.com
+                    value: 192.168.1.1
+                    type: A
+                    ttl: 300
+                    priority: null
+                    port: null
+                    weight: null
+                  - id: 12346
+                    name: mail.example.com
+                    value: mail.example.com.herokudns.com
+                    type: CNAME
+                    ttl: 3600
+                    priority: null
+                    port: null
+                    weight: null
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/zone/{zone_id}/records/create:
+    post:
+      summary: Create a new DNS record for a zone
+      tags:
+      - Zone
+      parameters:
+      - $ref: '#/components/parameters/ZoneId'
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRecordRequest'
+      responses:
+        '201':
+          description: DNS record created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                example:
+                  status: ok
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/zone/{zone_id}/records/{record_id}/update:
+    patch:
+      summary: Update an existing DNS record
+      tags:
+      - Zone
+      parameters:
+      - $ref: '#/components/parameters/ZoneId'
+      - $ref: '#/components/parameters/RecordId'
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRecordRequest'
+      responses:
+        '201':
+          description: DNS record updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                example:
+                  status: ok
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/zone/{zone_id}/records/{record_id}:
+    post:
+      summary: Delete a DNS record
+      tags:
+      - Zone
+      parameters:
+      - $ref: '#/components/parameters/ZoneId'
+      - $ref: '#/components/parameters/RecordId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '201':
+          description: DNS record deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                example:
+                  status: ok
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    CreateRecordRequest:
+      type: object
+      required:
+      - type
+      - ttl
+      - value
+      properties:
+        name:
+          type: string
+          description: Record name (without zone name, will be appended automatically)
+        type:
+          type: string
+          description: The type of the record
+          enum:
+          - SOA
+          - A
+          - TXT
+          - NS
+          - CNAME
+          - MX
+          - NAPTR
+          - PTR
+          - SRV
+          - SPF
+          - AAAA
+          - CAA
+        ttl:
+          type: integer
+          description: Time-to-live in seconds
+        value:
+          type: string
+          description: The value of the record
+        priority:
+          type: integer
+          description: Priority field (required for MX and SRV records)
+        port:
+          type: integer
+          description: Port field (required for SRV records)
+        weight:
+          type: integer
+          description: Weight field (required for SRV records)
+      example:
+        name: www
+        type: A
+        ttl: 300
+        value: 192.168.1.1
+    ZoneListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ZoneItem'
+      example:
+        status: ok
+        data:
+        - id: 1905
+          name: test.com
+          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
+        - id: 1906
+          name: test1.com
+          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
+    AvailableZonesResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailableZone'
+      example:
+        status: ok
+        data:
+        - is_available: 1
+          location: Council Bluffs, Iowa, USA
+          region: us-central1
+          zone: us-central1-c
+        - is_available: 1
+          location: The Dalles, Oregon, USA
+          region: us-west1
+          zone: us-west1-a
+        - is_available: 1
+          location: Moncks Corner, South Carolina, USA
+          region: us-east1
+          zone: us-east1-b
+    Record:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the record
+        name:
+          type: string
+          description: The name of the record (FQDN)
+        value:
+          type: string
+          description: The value of the record
+        type:
+          type: string
+          description: The type of the record (A, AAAA, CNAME, MX, etc.)
+          enum:
+          - SOA
+          - A
+          - TXT
+          - NS
+          - CNAME
+          - MX
+          - NAPTR
+          - PTR
+          - SRV
+          - SPF
+          - AAAA
+          - CAA
+        ttl:
+          type: integer
+          description: Time-to-live in seconds
+        priority:
+          type: integer
+          description: Priority field (used for MX and SRV records)
+          nullable: true
+        port:
+          type: integer
+          description: Port field (used for SRV records)
+          nullable: true
+        weight:
+          type: integer
+          description: Weight field (used for SRV records)
+          nullable: true
+    AvailableZone:
+      type: object
+      properties:
+        is_available:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: Indicates if the zone is available (1) or not (0)
+        location:
+          type: string
+          description: Full name of the region
+        region:
+          type: string
+          description: The region identifier
+        zone:
+          type: string
+          description: The specific zone identifier
+    UpdateRecordRequest:
+      type: object
+      required:
+      - name
+      - ttl
+      - value
+      - type
+      properties:
+        name:
+          type: string
+          description: Record name without domain (e.g. for record.example.com the name is record)
+        ttl:
+          type: integer
+          description: Time-to-live in seconds
+        value:
+          type: string
+          description: The value of the record
+        type:
+          type: string
+          description: The type of the record
+          enum:
+          - A
+          - TXT
+          - CNAME
+          - MX
+          - PTR
+          - SRV
+          - SPF
+          - AAAA
+        priority:
+          type: integer
+          description: Priority field (optional)
+        port:
+          type: integer
+          description: Port field (optional)
+        weight:
+          type: integer
+          description: Weight field (optional)
+      example:
+        name: record
+        ttl: 3600
+        value: 192.168.1.2
+        type: A
+    ZoneItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the zone
+        name:
+          type: string
+          description: The name of the zone
+        nameservers:
+          type: string
+          description: JSON string containing an array of nameserver addresses
+  responses:
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+  parameters:
+    RecordId:
+      name: record_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    ZoneId:
+      name: zone_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY

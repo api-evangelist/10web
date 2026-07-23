@@ -1,0 +1,58 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/10web-openapi.yaml (paths + id-reference fields)
+api: 10Web API V1
+entities:
+- name: Account
+  description: Top-level account owning websites and reseller configuration.
+- name: Website
+  id: website_id
+  description: A hosted WordPress website (live, demo, or staging).
+- name: StagingWebsite
+  id: staging_website_id
+  description: A staging copy of a website.
+- name: Backup
+  id: backup_id
+  description: A point-in-time backup of a website.
+- name: DomainName
+  id: domain_name_id
+  description: A domain attached to a website.
+- name: Zone
+  id: zone_id
+  description: A DNS zone.
+- name: DnsRecord
+  id: record_id
+  description: A DNS record within a zone.
+- name: Certificate
+  description: An SSL certificate (free or custom) for a website.
+- name: Page
+  description: A builder page within a website.
+- name: Subdomain
+  description: A 10Web-hosted subdomain used when creating/cloning sites.
+relationships:
+- from: Account
+  type: has_many
+  to: Website
+  via: website_id
+- from: Website
+  type: has_one
+  to: StagingWebsite
+  via: staging_website_id
+- from: Website
+  type: has_many
+  to: Backup
+  via: backup_id
+- from: Website
+  type: has_many
+  to: DomainName
+  via: domain_name_id
+- from: Website
+  type: has_many
+  to: Certificate
+- from: Website
+  type: has_many
+  to: Page
+- from: Zone
+  type: has_many
+  to: DnsRecord
+  via: record_id

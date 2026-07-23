@@ -1,0 +1,11 @@
+generated: '2026-07-17'
+method: generated
+source: openapi/10web-openapi.yaml
+api: 10Web API V1
+skills:
+- name: 10web-generate-ai-website
+  file: 10web-generate-ai-website.md
+  description: Generate a full AI-powered WordPress website end-to-end.
+- name: 10web-staging-and-backup
+  file: 10web-staging-and-backup.md
+  description: Stage, back up, and push website changes to live safely.

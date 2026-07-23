@@ -1,8 +1,17 @@
 aid: 10web
 name: 10Web
-description: '10Web is a company surfaced as a portfolio company of sierra-ventures and added to the API
-  Evangelist network as a stub for enrichment. Sector: ai. This profile is a lead awaiting the enrichment
-  pipeline.'
+description: >-
+  10Web is an AI-powered website builder platform that generates, hosts, and
+  manages full WordPress websites on managed infrastructure, powering more than
+  two million websites. Its public REST API — the 10Web Website Builder API (V1)
+  — lets SaaS, agency, and hosting platforms embed 10Web's AI website generation,
+  WordPress hosting, domains, DNS, SSL, backups, and staging as a white-label
+  solution. The API exposes 69 operations across websites, AI/Vibe Coding
+  content generation, domains and DNS zones, SSL certificates, backups, cache and
+  PHP management, subdomains, the page builder, and signed webhooks, all
+  authenticated with an x-api-key header against https://api.10web.io. Originally
+  added to the API Evangelist network as a Sierra Ventures portfolio lead, this
+  profile has been enriched from 10Web's public developer surface.
 url: https://raw.githubusercontent.com/api-evangelist/10web/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,13 +19,317 @@ x-backed-by:
 - sierra-ventures
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
 modified: '2026-07-17'
+image: https://10web.io/wp-content/uploads/2025/03/OG-img4.jpg
 tags:
 - Company
 - Ai
-apis: []
+- Website Builder
+- WordPress
+- Hosting
+- Website Generation
+- No-Code
+apis:
+- aid: 10web:10web-account-api
+  name: 10Web Account API
+  description: Operations for managing account-level resources
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-account-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-backup-api
+  name: 10Web Backup API
+  description: Operations for backup management
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Backup
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-backup-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-builder-api
+  name: 10Web Builder API
+  description: Operations for website builder and page management
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Builder
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-builder-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-cache-api
+  name: 10Web Cache API
+  description: Operations for cache management
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Cache
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-cache-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-certificate-api
+  name: 10Web Certificate API
+  description: Operations for SSL certificate management
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Certificate
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-certificate-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-domain-api
+  name: 10Web Domain API
+  description: Operations for domain management
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Domain
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-domain-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-php-management-api
+  name: 10Web PHP Management API
+  description: Operations for PHP version management
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - PHP Management
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-php-management-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-section-based-ai-api
+  name: 10Web Section Based AI API
+  description: Operations for AI-powered features
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Section Based AI
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-section-based-ai-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-subdomain-api
+  name: 10Web Subdomain API
+  description: Operations for subdomain management
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Subdomain
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-subdomain-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-vibe-coding-api
+  name: 10Web Vibe Coding API
+  description: Operations for WordPress Vibe Coding - AI-powered website content generation
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Vibe Coding
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-vibe-coding-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-website-api
+  name: 10Web Website API
+  description: Operations for website creation and management
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Website
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-website-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-wp-autologin-api
+  name: 10Web WP Autologin API
+  description: Operations for secure WordPress admin panel autologin functionality
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - WP Autologin
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-wp-autologin-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-zone-api
+  name: 10Web Zone API
+  description: Operations for DNS zone management
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Zone
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-zone-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -25,3 +338,44 @@ maintainers:
 common:
 - type: Website
   url: https://10web.io/
+- type: DeveloperPortal
+  url: https://apidocs.10web.io/
+- type: Documentation
+  url: https://help.10web.io/hc/en-us/articles/27304964365586-Introduction-to-10Web-API
+- type: APIReference
+  url: https://apidocs.10web.io/
+- type: GettingStarted
+  url: https://10web.io/website-builder-api/
+- type: SignUp
+  url: https://my.10web.io/login
+- type: Support
+  url: https://help.10web.io/hc/en-us
+- type: Blog
+  url: https://10web.io/blog/
+- type: Pricing
+  url: https://10web.io/pricing/
+- type: Roadmap
+  url: https://help.10web.notion.site/10web-ai-builder-public-roadmap
+- type: StatusPage
+  url: https://status.10web.io/
+- type: TermsOfService
+  url: https://10web.io/legal/terms-of-service/
+- type: PrivacyPolicy
+  url: https://10web.io/legal/privacy-policy/
+- type: Webhooks
+  url: asyncapi/10web-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/10web-llms.txt
+- type: DomainSecurity
+  url: security/10web-domain-security.yml
+- type: WellKnown
+  url: well-known/10web-well-known.yml
+- type: Lifecycle
+  url: lifecycle/10web-lifecycle.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

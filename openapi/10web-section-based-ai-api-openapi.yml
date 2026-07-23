@@ -1,0 +1,570 @@
+openapi: 3.0.0
+info:
+  title: 10Web API V1 Account Section Based AI API
+  description: 'The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web''s powerful hosting and website management capabilities into your own applications.
+
+    '
+servers:
+- url: https://api.10web.io
+tags:
+- name: Section Based AI
+  description: Operations for AI-powered features
+paths:
+  /v1/ai/generate_site:
+    post:
+      summary: Generate an AI-powered website
+      tags:
+      - Section Based AI
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - website_id
+              - business_type
+              - business_name
+              - business_description
+              properties:
+                website_id:
+                  type: integer
+                  description: The ID of the website to generate the site for
+                business_type:
+                  type: string
+                  description: Type of business
+                  example: agency
+                business_name:
+                  type: string
+                  description: Name of the business
+                  example: My Agency
+                business_description:
+                  type: string
+                  description: Short description of the business
+                  example: Digital marketing solutions
+      responses:
+        '200':
+          description: Website generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    description: Status message
+                  status:
+                    type: integer
+                    description: HTTP status code
+                  data:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        description: URL of the generated website
+                example:
+                  msg: Success
+                  status: 200
+                  data:
+                    url: https://subdomain.domain.com
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/ai/generate_site_from_sitemap:
+    post:
+      summary: Generate a website using a previously created outline, styles, and secondary pages
+      tags:
+      - Section Based AI
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - website_id
+              - unique_id
+              - params
+              properties:
+                website_id:
+                  type: integer
+                  description: The ID of the website to generate the site for
+                  example: 18925
+                unique_id:
+                  type: string
+                  description: The unique identifier of the previously generated sitemap
+                  example: ai2_unique_F405Pjih23f88mALR9DxPb1TQ0bld6g8M3uJ_JCH
+                params:
+                  type: object
+                  required:
+                  - business_type
+                  - business_name
+                  - business_description
+                  - pages_meta
+                  - website_description
+                  - website_keyphrase
+                  - website_title
+                  properties:
+                    business_type:
+                      type: string
+                      description: Type of business
+                      example: agency
+                    business_name:
+                      type: string
+                      description: Name of the business
+                      example: My Restaurant
+                    business_description:
+                      type: string
+                      description: Short description of the business
+                      example: Best restaurant in my city
+                    colors:
+                      type: object
+                      description: Website color scheme
+                      required:
+                      - background_dark
+                      - primary_color
+                      - secondary_color
+                      properties:
+                        background_dark:
+                          type: string
+                          description: Color code for dark backgrounds
+                          example: '#212121'
+                        primary_color:
+                          type: string
+                          description: Primary color code
+                          example: '#ff69b4'
+                        secondary_color:
+                          type: string
+                          description: Secondary color code
+                          example: '#ffd700'
+                    fonts:
+                      type: object
+                      description: Website font settings
+                      required:
+                      - primary_font
+                      properties:
+                        primary_font:
+                          type: string
+                          description: Primary font family
+                          example: Montserrat
+                    pages_meta:
+                      type: array
+                      description: List of pages with sections and metadata
+                      items:
+                        type: object
+                        properties:
+                          description:
+                            type: string
+                            description: Detailed description of the page purpose
+                          sections:
+                            type: array
+                            description: Sections within the page
+                            items:
+                              type: object
+                              properties:
+                                section_description:
+                                  type: string
+                                  description: Detailed description of the section content
+                                section_title:
+                                  type: string
+                                  description: Title of the section
+                          title:
+                            type: string
+                            description: Title of the page
+                    website_description:
+                      type: string
+                      description: SEO description for the website
+                      example: Experience the best restaurant in town! My Restaurant offers a unique dining experience with delicious food and a welcoming atmosphere.
+                    website_keyphrase:
+                      type: string
+                      description: Primary keyphrase for SEO
+                      example: best restaurant in city
+                    website_title:
+                      type: string
+                      description: Title of the website
+                      example: My Restaurant - Best in City
+                    website_type:
+                      type: string
+                      description: Type of website template
+                      example: basic
+      responses:
+        '200':
+          description: Website generated successfully from sitemap
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    description: Status message
+                  status:
+                    type: integer
+                    description: HTTP status code
+                  data:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        description: URL of the generated website
+                example:
+                  msg: Success
+                  status: 200
+                  data:
+                    url: https://subdomain.domain.com
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/ai/generate_sitemap:
+    post:
+      summary: Generate outline, styles, and secondary pages from a given business description
+      tags:
+      - Section Based AI
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - website_id
+              - params
+              properties:
+                website_id:
+                  type: integer
+                  description: The ID of the website to generate the sitemap for
+                  example: 1111
+                params:
+                  type: object
+                  required:
+                  - business_type
+                  - business_name
+                  - business_description
+                  properties:
+                    business_type:
+                      type: string
+                      description: Type of business
+                      example: agency
+                    business_name:
+                      type: string
+                      description: Name of the business
+                      example: Model agency
+                    business_description:
+                      type: string
+                      description: Short description of the business
+                      example: My model agency is a world wide fashion studio.
+      responses:
+        '200':
+          description: Sitemap generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    description: Status message
+                  status:
+                    type: integer
+                    description: HTTP status code
+                  data:
+                    type: object
+                    properties:
+                      business_description:
+                        type: string
+                        description: Description of the business
+                      business_name:
+                        type: string
+                        description: Name of the business
+                      business_type:
+                        type: string
+                        description: Type of business
+                      colors:
+                        type: object
+                        description: Website color scheme
+                        properties:
+                          background_dark:
+                            type: string
+                            description: Color code for dark backgrounds
+                          primary_color:
+                            type: string
+                            description: Primary color code
+                          secondary_color:
+                            type: string
+                            description: Secondary color code
+                      website_id:
+                        type: integer
+                        description: Website identifier
+                      fonts:
+                        type: object
+                        description: Website font settings
+                        properties:
+                          primary_font:
+                            type: string
+                            description: Primary font family
+                      pages_meta:
+                        type: array
+                        description: List of pages with sections and metadata
+                        items:
+                          type: object
+                          properties:
+                            description:
+                              type: string
+                              description: Detailed description of the page purpose
+                            sections:
+                              type: array
+                              description: Sections within the page
+                              items:
+                                type: object
+                                properties:
+                                  section_description:
+                                    type: string
+                                    description: Detailed description of the section content
+                                  section_title:
+                                    type: string
+                                    description: Title of the section
+                            title:
+                              type: string
+                              description: Title of the page
+                      unique_id:
+                        type: string
+                        description: Unique identifier for the generated sitemap
+                      website_description:
+                        type: string
+                        description: SEO description for the website
+                      website_keyphrase:
+                        type: string
+                        description: Primary keyphrase for SEO
+                      website_title:
+                        type: string
+                        description: Title of the website
+                      website_type:
+                        type: string
+                        description: Type of website template
+                example:
+                  msg: Success
+                  status: 200
+                  data:
+                    business_description: Best restaurant in my city
+                    business_name: My Restaurant
+                    business_type: agency
+                    colors:
+                      background_dark: '#212121'
+                      primary_color: '#ff69b4'
+                      secondary_color: '#ffd700'
+                    website_id: 18925
+                    fonts:
+                      primary_font: Montserrat
+                    pages_meta:
+                    - description: The home page is the primary landing page for the website, providing a general overview of the restaurant.
+                      sections:
+                      - section_description: Header section contains the logo, navigation menu, and site title.
+                        section_title: Header
+                      - section_description: Hero section features a captivating image of the restaurant's interior or a delicious dish, along with a brief welcome message.
+                        section_title: Hero
+                      title: Home
+                    - description: The 'About Us' page provides a detailed description of the restaurant's background, mission, and values.
+                      sections:
+                      - section_description: Our Story section contains a detailed description of the restaurant's history, mission, and values.
+                        section_title: Our Story
+                      title: About Us
+                    unique_id: ai2_unique_F405Pjih23f88mALR9DxPb1TQ0bld6g8M3uJ_JCH
+                    website_description: Experience the best restaurant in town! My Restaurant offers a unique dining experience with delicious food and a welcoming atmosphere.
+                    website_keyphrase: best restaurant in city
+                    website_title: My Restaurant - Best in City
+                    website_type: basic
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/ai-website:
+    post:
+      summary: Create a website with AI-generated content
+      description: "Creates a new website and automatically generates AI-powered content for it in a single operation. \nThis endpoint combines website creation with AI site generation, providing a streamlined \nworkflow for creating fully functional websites with AI-generated content.\n"
+      tags:
+      - Section Based AI
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAIWebsiteRequest'
+      responses:
+        '200':
+          description: Website created and AI content generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIWebsiteResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+  parameters:
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
+  schemas:
+    AIWebsiteResponse:
+      type: object
+      properties:
+        website_id:
+          type: integer
+          description: The ID of the created website
+        website_url:
+          type: string
+          description: The URL of the website with generated AI content
+          nullable: true
+        error:
+          type: string
+          description: Error message if AI generation failed (website still created successfully)
+          nullable: true
+      example:
+        website_id: 21113
+        website_url: https://my-agency-site.10web.club
+    CreateAIWebsiteRequest:
+      type: object
+      required:
+      - subdomain
+      - region
+      - site_title
+      - admin_username
+      - admin_password
+      - business_type
+      - business_name
+      - business_description
+      properties:
+        subdomain:
+          type: string
+          description: Subdomain for the website (3-63 characters, lowercase letters, numbers, and hyphens only)
+          example: my-agency-site
+        region:
+          type: string
+          description: Region of the website
+          example: us-central1-c
+        site_title:
+          type: string
+          description: Title of the website
+          example: My Agency Website
+        admin_username:
+          type: string
+          description: Admin username for the website (max 60 characters, can contain alphanumeric characters, space, _, ., -, *, @)
+          example: admin
+        admin_password:
+          type: string
+          description: Admin password for the website (must contain 1 lowercase, 1 uppercase, 1 digit, minimum 8 chars)
+          example: MySecurePass123
+        is_demo:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: Specifies if this website is a demo (0 = regular website, 1 = demo website)
+          example: 0
+        demo_domain_delete_after_days:
+          type: integer
+          minimum: 1
+          maximum: 30
+          description: Number of days after which demo website will be deleted (only applicable when is_demo = 1)
+          example: 7
+        business_type:
+          type: string
+          description: Type of business for AI content generation
+          example: agency
+        business_name:
+          type: string
+          description: Name of the business for AI content generation
+          example: Digital Solutions Agency
+        business_description:
+          type: string
+          description: Description of the business for AI content generation
+          example: We provide comprehensive digital marketing solutions and web development services

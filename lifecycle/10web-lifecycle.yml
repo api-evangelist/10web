@@ -1,0 +1,24 @@
+generated: '2026-07-17'
+method: searched
+source: https://status.10web.io/ + https://apidocs.10web.io/ + https://help.10web.notion.site/10web-ai-builder-public-roadmap
+api: 10Web API V1
+versioning:
+  style: uri-path
+  current_version: v1
+  base_url: https://api.10web.io/v1
+status_page:
+  url: https://status.10web.io/
+  verified_status: 200
+  uptime_target: 99.99%
+roadmap:
+  url: https://help.10web.notion.site/10web-ai-builder-public-roadmap
+  note: Public product roadmap (Notion), linked from the 10Web site.
+deprecation:
+  policy_documented: false
+  sunset_header: not documented
+  deprecated_operations: []
+sla:
+  documented: 99.99% uptime guarantee (marketing); no per-endpoint API SLA published.
+notes:
+- No dated API changelog / release-notes page was found; version is signaled by
+  the /v1 URI prefix and the "10Web API V1" title.

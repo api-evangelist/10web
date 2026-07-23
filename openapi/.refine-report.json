@@ -1,0 +1,52 @@
+{
+  "provider": "10web",
+  "sources": [
+    "10web-account-api-openapi.yml",
+    "10web-backup-api-openapi.yml",
+    "10web-builder-api-openapi.yml",
+    "10web-cache-api-openapi.yml",
+    "10web-certificate-api-openapi.yml",
+    "10web-domain-api-openapi.yml",
+    "10web-php-management-api-openapi.yml",
+    "10web-section-based-ai-api-openapi.yml",
+    "10web-subdomain-api-openapi.yml",
+    "10web-vibe-coding-api-openapi.yml",
+    "10web-website-api-openapi.yml",
+    "10web-wp-autologin-api-openapi.yml",
+    "10web-zone-api-openapi.yml"
+  ],
+  "outputs": [
+    "10web-account-api-openapi.yml",
+    "10web-backup-api-openapi.yml",
+    "10web-builder-api-openapi.yml",
+    "10web-cache-api-openapi.yml",
+    "10web-certificate-api-openapi.yml",
+    "10web-domain-api-openapi.yml",
+    "10web-php-management-api-openapi.yml",
+    "10web-section-based-ai-api-openapi.yml",
+    "10web-subdomain-api-openapi.yml",
+    "10web-vibe-coding-api-openapi.yml",
+    "10web-website-api-openapi.yml",
+    "10web-wp-autologin-api-openapi.yml",
+    "10web-zone-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [
+    "10web-account-api-openapi.yml: info.version missing",
+    "10web-backup-api-openapi.yml: info.version missing",
+    "10web-builder-api-openapi.yml: info.version missing",
+    "10web-cache-api-openapi.yml: info.version missing",
+    "10web-certificate-api-openapi.yml: info.version missing",
+    "10web-domain-api-openapi.yml: info.version missing",
+    "10web-php-management-api-openapi.yml: info.version missing",
+    "10web-section-based-ai-api-openapi.yml: info.version missing",
+    "10web-subdomain-api-openapi.yml: info.version missing",
+    "10web-vibe-coding-api-openapi.yml: info.version missing",
+    "10web-website-api-openapi.yml: info.version missing",
+    "10web-wp-autologin-api-openapi.yml: info.version missing",
+    "10web-zone-api-openapi.yml: info.version missing"
+  ],
+  "notes": [],
+  "skipped": []
+}

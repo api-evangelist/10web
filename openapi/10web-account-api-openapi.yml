@@ -1,0 +1,182 @@
+openapi: 3.0.0
+info:
+  title: 10Web API V1 Account API
+  description: 'The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web''s powerful hosting and website management capabilities into your own applications.
+
+    '
+servers:
+- url: https://api.10web.io
+tags:
+- name: Account
+  description: Operations for managing account-level resources
+paths:
+  /v1/account/websites:
+    get:
+      summary: Get all websites for the account
+      tags:
+      - Account
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: List of websites for the account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountWebsitesResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/account/websites/{website_id}/delete:
+    delete:
+      summary: Delete a website from the account
+      tags:
+      - Account
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Website deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/account/websites/{website_id}/convert-to-live:
+    post:
+      summary: Convert demo website to live
+      tags:
+      - Account
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Website converted to live successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+  parameters:
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  schemas:
+    AccountWebsite:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        site_url:
+          type: string
+        admin_url:
+          type: string
+        site_title:
+          type: string
+        website_hash:
+          type: string
+        type:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      example:
+        id: 15354
+        name: testdomain.com
+        site_url: https://testdomain.com
+        admin_url: https://testdomain.com/wp-admin/
+        site_title: My Website
+        website_hash: WEBSITE_HASH_STRING
+        type: live
+        created_at: '2024-09-23 07:08:47'
+        updated_at: '2024-10-10 11:22:25'
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+      example:
+        status: ok
+    AccountWebsitesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountWebsite'

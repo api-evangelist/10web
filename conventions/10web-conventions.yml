@@ -1,0 +1,42 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/10web-openapi.yaml + https://apidocs.10web.io/
+api: 10Web API V1
+base_url: https://api.10web.io
+authentication:
+  style: api-key
+  header: x-api-key
+  ref: authentication/10web-authentication.yml
+versioning:
+  style: uri-path
+  current: v1
+  example: /v1/hosting/website
+idempotency:
+  supported: false
+  note: >-
+    No request-level Idempotency-Key header is documented for the REST API.
+    Webhook consumers dedupe deliveries using the event_id field (the same event
+    may be redelivered on retry).
+pagination:
+  supported: false
+  note: >-
+    List operations (for example GET /v1/account/websites, backup/list,
+    zone records) return arrays without documented cursor/offset paging
+    parameters.
+error_envelope:
+  format: custom-json
+  shape:
+    status: error
+    message: <string>
+  ref: errors/10web-problem-types.yml
+rate_limiting:
+  signaled_by: HTTP 429 (Too many requests)
+  headers: not documented
+webhooks:
+  supported: true
+  delivery: signed POST (HMAC-SHA256, x-10web-signature, whsec_ secret)
+  dedup_field: event_id
+  ref: asyncapi/10web-webhooks.yml
+content_type: application/json
+metadata_fields: not documented
+request_id_tracing: webhook payloads include event_id and sent_at (ISO 8601)

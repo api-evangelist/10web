@@ -1,0 +1,915 @@
+openapi: 3.0.0
+info:
+  title: 10Web API V1 Account Vibe Coding API
+  description: 'The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web''s powerful hosting and website management capabilities into your own applications.
+
+    '
+servers:
+- url: https://api.10web.io
+tags:
+- name: Vibe Coding
+  description: Operations for WordPress Vibe Coding - AI-powered website content generation
+paths:
+  /v1/hosting/wvc-website:
+    post:
+      summary: Create a website and generate WVC content
+      description: "Combined endpoint that creates a new website and immediately triggers WordPress Vibe Coding\n(WVC) content generation on it. Performs the following steps in sequence:\n\n1. **Create website** — provisions a new WordPress website with the specified hosting parameters.\n2. **Configure WVC** — installs the WVC theme and removes incompatible plugins.\n3. **Generate WVC content** — submits the WVC generation request. The gateway waits up to\n   10 seconds for the WVC service to respond; if it times out the generation continues in\n   the background.\n4. **Autologin URL** — generates a single-use URL that opens the WVC editor in the\n   WordPress admin panel.\n\nUse this endpoint to create and launch a WVC-powered website in a single call.\nIf you already have an existing website and only need to trigger WVC generation,\nuse `POST /v1/wvc/{website_id}/create` instead.\n\n**⚠️ Service Requirement:**\nThis feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.\nIf the WVC service is not enabled, this feature will be unavailable and API requests may return\nan error response. Please contact support to enable this service.\n"
+      tags:
+      - Vibe Coding
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WVCCombinedCreateRequest'
+      responses:
+        '200':
+          description: Website created and WVC content generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WVCCombinedCreateResponse'
+        '202':
+          description: 'Website created but WVC generation is still in progress. Returned when the autologin
+
+            URL could not be generated yet (e.g. the site is still provisioning). Use the returned
+
+            `website_id` with `POST /v1/wvc/websites/{website_id}/autologin` to obtain the
+
+            autologin URL once the site is ready.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  website_id:
+                    type: integer
+                    description: ID of the newly created website
+                    example: 12345
+                  message:
+                    type: string
+                    example: Website generation is in progress
+                  data:
+                    type: object
+                    description: Raw response from the WVC service, present when the WVC service responded within the timeout window.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/set-wvc-plan-data:
+    post:
+      summary: Set WVC plan data for a website
+      description: 'Activates the WordPress Vibe Coding (WVC) plan on a website by writing the
+
+        `wvc_plan_data` option directly to WordPress via WP-CLI. This sets a
+
+        `WVC monthly` plan with a 2-day trial period starting from
+
+        today''s date.
+
+
+        Call this endpoint before triggering WVC generation on an existing website to
+
+        ensure the correct plan is in place.
+
+
+        **Request body fields:**
+
+
+        - `option_name` — Must be `wvc_plan_data`.
+
+        - `option_value.plan_title` — The name of the WVC plan displayed in the editor.
+
+        - `option_value.trial_data.trial_period` — Duration of the trial in days.
+
+        - `option_value.trial_data.hosting_trial_expire_date` — The date and time the trial expires (YYYY-MM-DD HH:MM:SS).
+
+        - `option_value.timezone` — The website''s timezone as a UTC offset (e.g. `UTC+0`, `UTC+4`, `UTC-5`).
+
+        - `option_value.upgrade_url` — Optional. When provided, the editor will use it as the upgrade link for this specific website instead of the default upgrade URL.
+
+
+        **⚠️ Service Requirement:**
+
+        This feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.
+
+        If the WVC service is not enabled, this feature will be unavailable and API requests may return
+
+        an error response. Please contact support to enable this service.
+
+        '
+      tags:
+      - Vibe Coding
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - option_name
+              - option_value
+              properties:
+                option_name:
+                  type: string
+                  description: The WordPress option name to set.
+                  example: wvc_plan_data
+                option_value:
+                  type: object
+                  description: The WVC plan data to store as the option value.
+                  required:
+                  - plan_title
+                  - trial_data
+                  - timezone
+                  properties:
+                    plan_title:
+                      type: string
+                      description: 'The title of the WVC plan. Use `"WVC monthly"` for hosted plans,
+
+                        or `"Builder WVC self hosted monthly"` for self-hosted (API key-based) installations.
+
+                        '
+                      example: WVC monthly
+                    trial_data:
+                      type: object
+                      description: Trial period configuration.
+                      required:
+                      - trial_period
+                      - hosting_trial_expire_date
+                      properties:
+                        trial_period:
+                          type: integer
+                          description: Duration of the trial period in days.
+                          example: 2
+                        hosting_trial_expire_date:
+                          type: string
+                          format: date-time
+                          description: The date and time when the hosting trial expires (YYYY-MM-DD HH:MM:SS).
+                          example: '2026-04-18 00:00:00'
+                    timezone:
+                      type: string
+                      description: 'The timezone of the website as a UTC offset (e.g. `"UTC+0"`, `"UTC+4"`, `"UTC-5"`).
+
+                        '
+                      example: UTC+0
+                    upgrade_url:
+                      type: string
+                      format: uri
+                      description: Optional custom upgrade URL for this specific website. When provided, WVC will use it instead of the default upgrade URL.
+                      example: https://example.com/upgrade
+            example:
+              option_name: wvc_plan_data
+              option_value:
+                plan_title: WVC monthly
+                trial_data:
+                  trial_period: 2
+                  hosting_trial_expire_date: '2026-04-18 00:00:00'
+                timezone: UTC+0
+                upgrade_url: https://example.com/upgrade
+      responses:
+        '200':
+          description: WVC plan data set successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: wvc_plan_data option updated successfully
+              example:
+                status: ok
+                data:
+                  message: wvc_plan_data option updated successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/reseller/wvc-plan-defaults:
+    get:
+      summary: Get default WVC plan data
+      description: 'Returns the workspace-level WVC plan data defaults. These defaults are automatically
+
+        applied to the `wvc_plan_data` WordPress option when a new website is created via
+
+        the API gateway, if no per-website override is provided.
+
+
+        **⚠️ Service Requirement:**
+
+        This feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.
+
+        If the WVC service is not enabled, this feature will be unavailable and API requests may return
+
+        an error response. Please contact support to enable this service.
+
+        '
+      tags:
+      - Vibe Coding
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: WVC plan defaults retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WVCPlanDefaultsResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      summary: Set default WVC plan data
+      description: 'Sets the workspace-level WVC plan data defaults. When a new website is created via
+
+        the API gateway, these defaults are automatically written to the `wvc_plan_data`
+
+        WordPress option.
+
+
+        This is an **upsert** — the entire defaults object is replaced on each call.
+
+        To update a single field without losing others, include all existing fields in the request.
+
+
+        **Currently supported fields:**
+
+        - `plan_title` — the WVC plan name shown in the editor (e.g. `"WVC monthly"`)
+
+        - `upgrade_url` — custom upgrade link shown in the editor; overrides the WVC service default
+
+
+        Adding new fields in the future requires only a documentation and gateway validation update —
+
+        no database migration is needed.
+
+
+        **⚠️ Service Requirement:**
+
+        This feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.
+
+        If the WVC service is not enabled, this feature will be unavailable and API requests may return
+
+        an error response. Please contact support to enable this service.
+
+        '
+      tags:
+      - Vibe Coding
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WVCPlanDefaultsRequest'
+      responses:
+        '200':
+          description: WVC plan defaults set successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WVCPlanDefaultsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/wvc/{website_id}/create:
+    post:
+      summary: Generate website content using WordPress Vibe Coding
+      description: 'Creates AI-powered website content from a provided outline and business information.
+
+        This endpoint generates React-based components that integrate with WordPress through
+
+        the WordPress Vibe Coding system, providing modern, editable website content.
+
+
+        **⚠️ Service Requirement:**
+
+        This feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.
+
+        If the WVC service is not enabled, this feature will be unavailable and API requests may return
+
+        an error response. Please contact support to enable this service.
+
+        '
+      tags:
+      - Vibe Coding
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WVCCreateRequest'
+      responses:
+        '200':
+          description: Website content generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WVCCreateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/wvc/websites/{website_id}/custom-limitations/:
+    get:
+      summary: Get WVC custom limitations for a  website
+      description: 'Retrieves the current WVC usage limitations for a specific website, including
+
+        the maximum allowed counts and current usage for WVC website creation and editing features.
+
+
+        **⚠️ Service Requirement:**
+
+        This feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.
+
+        If the WVC service is not enabled, this feature will be unavailable and API requests may return
+
+        an error response. Please contact support to enable this service.
+
+        '
+      tags:
+      - Vibe Coding
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Custom limitations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WVCCustomLimitationsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      summary: Update WVC custom limitations for a website
+      description: 'Updates the WVC usage limitations for a specific website. You can set custom limits
+
+        for the number of WVC website creations and edits allowed for this website.
+
+        Optionally resets the usage counters in the same call by passing `reset_usage: 1` —
+
+        this removes the need to make a separate call to `POST /v1/wvc/websites/{website_id}/reset-usage/`.
+
+
+        **⚠️ Service Requirement:**
+
+        This feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.
+
+        If the WVC service is not enabled, this feature will be unavailable and API requests may return
+
+        an error response. Please contact support to enable this service.
+
+        '
+      tags:
+      - Vibe Coding
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WVCCustomLimitationsUpdateRequest'
+      responses:
+        '200':
+          description: Custom limitations updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WVCCustomLimitationsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/wvc/websites/{website_id}/reset-usage/:
+    post:
+      summary: Reset WVC usage counters for a website
+      description: 'Resets the WVC usage counters (creations and edits used) for a specific website back to zero.
+
+
+        **⚠️ Service Requirement:**
+
+        This feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.
+
+        If the WVC service is not enabled, this feature will be unavailable and API requests may return
+
+        an error response. Please contact support to enable this service.
+
+        '
+      tags:
+      - Vibe Coding
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Usage counters reset successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WVCResetUsageResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/wvc/websites/{website_id}/autologin:
+    post:
+      summary: Generate autologin URL for WVC editor access
+      description: 'Generates a single-use autologin URL that logs the user directly into the WordPress
+
+        admin panel with the WVC editor open, without requiring manual credential entry.
+
+
+        **⚠️ Service Requirement:**
+
+        This feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.
+
+        If the WVC service is not enabled, this feature will be unavailable and API requests may return
+
+        an error response. Please contact support to enable this service.
+
+        '
+      tags:
+      - Vibe Coding
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WVCAutologinRequest'
+      responses:
+        '200':
+          description: Autologin URL generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WVCAutologinResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/wvc/generation-configs/default-website-limit/:
+    post:
+      summary: Set default WVC generation limits
+      description: 'Sets the default WVC generation limits applied to all workspaces. This is an
+
+        administrative endpoint for configuring the baseline number of WVC website creations
+
+        and edits available to users.
+
+
+        **⚠️ Service Requirement:**
+
+        This feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.
+
+        If the WVC service is not enabled, this feature will be unavailable and API requests may return
+
+        an error response. Please contact support to enable this service.
+
+        '
+      tags:
+      - Vibe Coding
+      parameters:
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WVCDefaultWebsiteLimitRequest'
+      responses:
+        '200':
+          description: Default generation limits updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WVCDefaultWebsiteLimitResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    WVCCreateRequest:
+      type: object
+      required:
+      - email
+      - user_prompt
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email address for website admin access
+          example: test@example.com
+        user_prompt:
+          type: string
+          description: User's description of what the website should include
+          example: Create a modern tech company website
+    WVCDefaultWebsiteLimitRequest:
+      type: object
+      required:
+      - default_website_generation_limit
+      - default_website_edit_limit
+      properties:
+        default_website_generation_limit:
+          type: integer
+          description: Default maximum number of WVC website creations allowed per workspace
+          example: 3
+        default_website_edit_limit:
+          type: integer
+          description: Default maximum number of WVC edits allowed per workspace
+          example: 10
+      example:
+        default_website_generation_limit: 3
+        default_website_edit_limit: 10
+    WVCCreateResponse:
+      type: object
+      properties:
+        autologin_url:
+          type: string
+          description: URL for automatic login to the WordPress admin panel with WVC editor access
+          example: https://splendid-boar.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=0WbKbFfxuTcSX0NmbTebcNkE5iUgJMvi7kSHtSBw7GXLH7djsIRnND46VmLdPkPN5kAcNXAkzsDti3toJFOSXBfQRGbhvXtsKcgvdlxpEgtYRY4z8ppAXz331knF6NFfvLL9WZSy7RDzDtFVmV8TpT&email=test%40example.com
+      example:
+        autologin_url: https://splendid-boar.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=0WbKbFfxuTcSX0NmbTebcNkE5iUgJMvi7kSHtSBw7GXLH7djsIRnND46VmLdPkPN5kAcNXAkzsDti3toJFOSXBfQRGbhvXtsKcgvdlxpEgtYRY4z8ppAXz331knF6NFfvLL9WZSy7RDzDtFVmV8TpT&email=test%40example.com
+    WVCCombinedCreateRequest:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email of the WordPress admin user. Used to generate the autologin URL. If no WordPress user with this email exists, a new administrator account will be created.
+          example: user@example.com
+        subdomain:
+          type: string
+          description: Subdomain for the new website (e.g. `my-site` → `my-site.10web.club`). If omitted, a random subdomain is assigned.
+          example: my-site
+        region:
+          type: string
+          description: Hosting region for the website.
+          example: us-west
+        site_title:
+          type: string
+          description: WordPress site title.
+          example: My Awesome Site
+        admin_username:
+          type: string
+          description: WordPress administrator username.
+          example: admin
+        admin_password:
+          type: string
+          description: WordPress administrator password.
+          example: S3cur3P@ss!
+        is_demo:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: When `1`, creates a demo website that is automatically deleted after `demo_domain_delete_after_days` days. (0 = regular website, 1 = demo website)
+          example: 0
+        demo_domain_delete_after_days:
+          type: integer
+          description: Number of days after which a demo website is automatically deleted. Only relevant when `is_demo` is `1`.
+          example: 7
+        user_prompt:
+          type: string
+          description: Description of what the website should include, used by the WVC service to generate content.
+          example: A modern agency website with a dark theme and bold typography
+    WVCDefaultWebsiteLimitResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+          example: success
+        message:
+          type: string
+          example: Successfully stored generation configs
+        data:
+          nullable: true
+          example: null
+      example:
+        status: success
+        message: Successfully stored generation configs
+        data: null
+    WVCAutologinRequest:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email address for WordPress admin access. If no user with this email exists, a new administrator account will be created.
+          example: user@example.com
+    WVCResetUsageResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Result of the operation.
+          enum:
+          - success
+          - failed
+          example: success
+        message:
+          type: string
+          description: Human-readable message describing the result.
+          example: Website usage reset successfully
+        website_id:
+          type: integer
+          description: The ID of the website whose usage was reset.
+          example: 29968
+      example:
+        status: success
+        message: Website usage reset successfully
+        website_id: 29968
+    WVCPlanDefaultsRequest:
+      type: object
+      properties:
+        plan_title:
+          type: string
+          nullable: true
+          description: The WVC plan name shown in the editor. Use `null` to clear this field.
+          example: WVC monthly
+        upgrade_url:
+          type: string
+          nullable: true
+          description: Custom upgrade link for the WVC editor. Overrides the WVC service default. Use `null` to clear this field.
+          example: https://example.com/upgrade
+      example:
+        plan_title: WVC monthly
+        upgrade_url: https://example.com/upgrade
+    WVCAutologinResponse:
+      type: object
+      properties:
+        autologin_url:
+          type: string
+          description: Single-use URL that logs the user into WordPress and opens the WVC editor. Valid for 5 minutes.
+          example: https://my-site.10web.club/wp-admin/admin.php?twb_wp_login_token=abc123&without_onboarding=true&page=wvc-editor&email=user%40example.com
+      example:
+        autologin_url: https://my-site.10web.club/wp-admin/admin.php?twb_wp_login_token=abc123&without_onboarding=true&page=wvc-editor&email=user%40example.com
+    WVCCustomLimitationsUpdateRequest:
+      type: object
+      required:
+      - wvc_website_create_count
+      - wvc_edit_count
+      properties:
+        wvc_website_create_count:
+          type: integer
+          description: Maximum number of WVC website creations allowed
+          example: 1
+        wvc_edit_count:
+          type: integer
+          description: Maximum number of WVC edits allowed
+          example: 1
+        reset_usage:
+          type: integer
+          enum:
+          - 0
+          - 1
+          default: 0
+          description: 'If `1`, resets `wvc_website_create_used` and `wvc_edit_used` to `0` as part of this call.
+
+            '
+          example: 1
+      examples:
+        update_limits_only:
+          summary: Update limits only
+          value:
+            wvc_website_create_count: 5
+            wvc_edit_count: 50
+        update_limits_and_reset:
+          summary: Update limits and reset counters in one call
+          value:
+            wvc_website_create_count: 5
+            wvc_edit_count: 50
+            reset_usage: 1
+    WVCCombinedCreateResponse:
+      type: object
+      properties:
+        website_id:
+          type: integer
+          description: ID of the newly created website.
+          example: 12345
+        autologin_url:
+          type: string
+          description: Single-use URL that logs the user into WordPress and opens the WVC editor. Valid for a limited time.
+          example: https://my-site.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=abc123&email=user%40example.com
+        data:
+          type: object
+          description: Raw response from the WVC service, present when the WVC service responded within the 10-second timeout window.
+      example:
+        website_id: 12345
+        autologin_url: https://my-site.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=abc123&email=user%40example.com
+    WVCPlanDefaultsData:
+      type: object
+      properties:
+        plan_title:
+          type: string
+          description: The WVC plan name shown in the editor.
+          example: WVC monthly
+        upgrade_url:
+          type: string
+          description: Custom upgrade link for the WVC editor. Overrides the WVC service default.
+          example: https://example.com/upgrade
+    WVCPlanDefaultsResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          example: ok
+        data:
+          type: object
+          properties:
+            defaults:
+              $ref: '#/components/schemas/WVCPlanDefaultsData'
+      example:
+        status: ok
+        data:
+          defaults:
+            plan_title: WVC monthly
+            upgrade_url: https://example.com/upgrade
+    WVCCustomLimitationsResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: SUCCESS
+        message:
+          type: string
+          example: Custom limitations retrieved successfully
+        data:
+          type: object
+          properties:
+            website_id:
+              type: integer
+              description: The unique identifier of the website
+              example: 29968
+            wvc_website_create_count:
+              type: integer
+              nullable: true
+              description: Maximum number of WVC website creations allowed. `null` means the workspace default applies.
+              example: null
+            wvc_edit_count:
+              type: integer
+              nullable: true
+              description: Maximum number of WVC edits allowed. `null` means the workspace default applies.
+              example: null
+            wvc_website_create_used:
+              type: integer
+              description: Number of WVC website creations used
+              example: 0
+            wvc_edit_used:
+              type: integer
+              description: Number of WVC edits used
+              example: 0
+      example:
+        status: SUCCESS
+        message: Custom limitations retrieved successfully
+        data:
+          website_id: 29968
+          wvc_website_create_count: null
+          wvc_edit_count: null
+          wvc_website_create_used: 0
+          wvc_edit_used: 0
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+  parameters:
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY

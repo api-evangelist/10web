@@ -1,0 +1,32 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/10web-openapi.yaml + https://apidocs.10web.io/
+api: 10Web API V1
+standards:
+- id: rest
+  conforms: true
+  evidence: Resource-oriented HTTPS API over JSON with GET/POST/PUT/PATCH/DELETE verbs (66 paths).
+- id: openapi-3.0
+  conforms: true
+  evidence: Published OpenAPI 3.0.0 document at https://apidocs.10web.io/spec/openapi.yaml.
+- id: json
+  conforms: true
+  evidence: All request/response bodies use application/json.
+- id: apikey-auth
+  conforms: true
+  evidence: Static API key via x-api-key request header on all operations.
+- id: webhooks-hmac
+  conforms: true
+  evidence: Signed webhook deliveries using HMAC-SHA256 over "timestamp.raw_body" with a whsec_ secret.
+- id: oauth2
+  conforms: false
+  evidence: No OAuth 2.0 flows documented; single static API-key credential.
+- id: rfc9457
+  conforms: false
+  evidence: Error responses use a custom {status,message} JSON envelope, not application/problem+json.
+- id: pagination
+  conforms: false
+  evidence: List endpoints return arrays without documented cursor/offset paging.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key request header documented for write operations.

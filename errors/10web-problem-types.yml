@@ -1,0 +1,38 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/10web-openapi.yaml (components.responses)
+api: 10Web API V1
+format: custom-json
+envelope:
+  description: >-
+    Errors are returned as a JSON object with a string status of "error" and a
+    human-readable message. This is NOT RFC 9457 problem+json; content type is
+    application/json.
+  shape:
+    status: error
+    message: <string>
+problem_types:
+- name: BadRequest
+  status: 400
+  title: Bad request
+  message_example: Invalid request parameters
+  remediation: Check required path/body parameters and value formats against the OpenAPI spec.
+- name: Unauthorized
+  status: 401
+  title: Unauthorized access
+  message_example: Unauthorized access
+  remediation: Send a valid API key in the x-api-key header. Confirm the key is active in the Reseller Dashboard.
+- name: TooManyRequests
+  status: 429
+  title: Too many requests
+  message_example: Too many requests. Please try again later.
+  remediation: Back off and retry later; throttle client request rate.
+- name: InternalServerError
+  status: 500
+  title: Something went wrong
+  message_example: Something went wrong
+  remediation: Transient server-side error; retry with backoff. Contact 10Web support if persistent.
+notes:
+- Individual operations reference these four shared responses via
+  $ref '#/components/responses/...'. No application/problem+json responses are
+  declared.

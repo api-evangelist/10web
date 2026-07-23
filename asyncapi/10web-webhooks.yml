@@ -1,0 +1,50 @@
+generated: '2026-07-17'
+method: searched
+source: https://apidocs.10web.io/spec/openapi.yaml (Webhooks tag)
+api: 10Web API V1
+summary: >-
+  The 10Web platform sends webhooks to notify partner applications about
+  background events. Each event is a signed POST request (application/json) to an
+  HTTPS endpoint configured in the Reseller Dashboard.
+delivery:
+  transport: https-post
+  content_type: application/json
+  signature:
+    algorithm: HMAC-SHA256
+    header: x-10web-signature
+    format: 'v1=HMAC_SHA256_HEX(webhook_secret, timestamp + "." + raw_body)'
+    secret_prefix: whsec_
+  validation_ping: 'Unsigned POST {"test": true, "message": "Webhook URL validation test"} must get a 2xx before saving.'
+  retries: true
+  dedup_field: event_id
+  common_fields:
+  - event_id
+  - event (event type)
+  - sent_at (ISO 8601 UTC)
+events:
+- name: staging_environment_enabled
+  description: A staging environment was enabled for a website.
+- name: staging_environment_disabled
+  description: A staging environment was disabled.
+- name: environment_synced
+  description: Content was synced between live and staging (sync_type to_live|to_staging).
+- name: backup_created
+  description: A new backup was created.
+- name: backup_restored
+  description: A backup was restored.
+- name: website_clone
+  description: A website clone operation completed.
+- name: website_generation_completed
+  description: Website creation flow completed (standard or dedicated VM).
+- name: website_import_completed
+  description: WordPress site provisioning completed; fires before wvc_action_started.
+- name: wvc_action_started
+  description: WordPress Vibe Coding AI content generation began (generation|edit|publish).
+- name: wvc_action_completed
+  description: A WVC generation operation finished (success|failed|cancelled).
+- name: agency_suite_customer_trial_started
+  description: An Agency Suite customer started a trial during signup.
+- name: agency_suite_customer_signed_up
+  description: An Agency Suite customer completed paid signup.
+- name: agency_suite_customer_upgraded
+  description: An Agency Suite customer was upgraded (trial_to_paid_upgrade|plan_upgrade).

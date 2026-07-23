@@ -1,0 +1,44 @@
+# 10Web
+
+> 10Web is an AI-powered website builder platform (2M+ websites) that generates, hosts, and manages full WordPress websites on managed infrastructure. Its public REST API — the 10Web Website Builder API — lets SaaS and hosting platforms embed AI website generation, WordPress hosting, domains, DNS, SSL, backups, and staging as a white-label solution.
+
+## API
+
+- [API Documentation (Redoc)](https://apidocs.10web.io/): The 10Web API V1 reference.
+- [OpenAPI spec](https://apidocs.10web.io/spec/openapi.yaml): OpenAPI 3.0.0, 66 paths / 69 operations, server https://api.10web.io.
+- [Introduction to 10Web API](https://help.10web.io/hc/en-us/articles/27304964365586-Introduction-to-10Web-API): Getting-started guide.
+- Authentication: static API key in the `x-api-key` request header (issued in the Reseller Dashboard).
+- Base URL: https://api.10web.io/v1
+
+## Capabilities (API tags)
+
+- Account: manage account-level websites.
+- Website: create and manage websites; enable/disable, staging, push-to-live/staging.
+- Vibe Coding (WVC): AI-powered website content generation.
+- Section Based AI: AI-powered site/sitemap generation (generate_site, generate_sitemap).
+- Domain / Zone: domain management and DNS zone/records.
+- Certificate: free and custom SSL certificates.
+- Backup: list, run, and restore website backups.
+- Cache: FastCGI and object cache management.
+- PHP Management: switch/restart PHP versions.
+- Subdomain: check/generate available subdomains; clone websites.
+- Builder: manage builder pages.
+- WP Autologin: single-use WordPress admin autologin tokens.
+- Webhooks: signed (HMAC-SHA256) event notifications for staging, sync, backup, clone, website generation, WVC, and Agency Suite events.
+
+## Developer resources
+
+- [Website Builder API overview](https://10web.io/website-builder-api/)
+- [API for SaaS](https://10web.io/website-builder-api/saas-solution/)
+- [Public roadmap](https://help.10web.notion.site/10web-ai-builder-public-roadmap)
+- [System status](https://status.10web.io/): 99.99% uptime target.
+- [Blog](https://10web.io/blog/)
+
+## Company
+
+- [Website](https://10web.io/)
+- [Pricing](https://10web.io/pricing/)
+- [Sign up / Login](https://my.10web.io/login)
+- [Terms of Service](https://10web.io/legal/terms-of-service/)
+- [Privacy Policy](https://10web.io/legal/privacy-policy/)
+- [Careers](https://10web.bamboohr.com/careers)

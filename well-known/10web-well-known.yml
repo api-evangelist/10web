@@ -1,0 +1,24 @@
+generated: '2026-07-17'
+method: probed
+source: live probes of 10web.io and api.10web.io
+summary: >-
+  No /.well-known/ discovery documents are published on the 10Web hosts. All
+  probed paths returned 404 (absence is valid data).
+hosts:
+- host: 10web.io
+  paths:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: api.10web.io
+  paths:
+  - path: /openapi.json
+    status: 404
+files: []

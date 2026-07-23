@@ -1,0 +1,330 @@
+openapi: 3.0.0
+info:
+  title: 10Web API V1 Account Certificate API
+  description: 'The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web''s powerful hosting and website management capabilities into your own applications.
+
+    '
+servers:
+- url: https://api.10web.io
+tags:
+- name: Certificate
+  description: Operations for SSL certificate management
+paths:
+  /v1/hosting/websites/{website_id}/certificate:
+    get:
+      summary: Get certificates for a website
+      tags:
+      - Certificate
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: List of certificates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateListResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/certificate/custom:
+    post:
+      summary: Add custom certificate for a website
+      tags:
+      - Certificate
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateCustomCertificateRequest'
+      responses:
+        '200':
+          description: Custom certificate generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                    - error
+                example:
+                  status: ok
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/certificate/free:
+    post:
+      summary: Generate free certificate for a website
+      tags:
+      - Certificate
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateFreeCertificateRequest'
+      responses:
+        '200':
+          description: Free certificate generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+                    - error
+                  troubleshoot_result:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        domain_pointed:
+                          type: integer
+                          enum:
+                          - 0
+                          - 1
+                          description: Whether the domain is pointed correctly (1) or not (0)
+                        has_ipv6:
+                          type: integer
+                          enum:
+                          - 0
+                          - 1
+                          description: Whether the domain has IPv6 support (1) or not (0)
+                        server:
+                          type: string
+                          description: Server information
+                example:
+                  status: ok
+                  troubleshoot_result:
+                    '21019':
+                      domain_pointed: 1
+                      has_ipv6: 0
+                      server: ''
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/certificate/remove:
+    delete:
+      summary: Remove certificates from a website
+      tags:
+      - Certificate
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveCertificatesRequest'
+      responses:
+        '200':
+          description: Certificates removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    GenerateCustomCertificateRequest:
+      type: object
+      required:
+      - key_file_content
+      - cert_file_content
+      properties:
+        key_file_content:
+          type: string
+          description: The content of the key file
+        cert_file_content:
+          type: string
+          description: The content of the certificate file, recommended to append the ca file content after it
+        ca_file_content:
+          type: string
+          description: The content of the ca file
+        redirect_http:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: Redirect HTTP to HTTPS
+    Certificate:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the certificate
+        common_name:
+          type: string
+          description: The common name of the certificate
+        domain_name:
+          type: string
+          description: The domain name for which the certificate is issued
+        issuer:
+          type: string
+          description: The issuer of the certificate
+        status:
+          type: string
+          description: The status of the certificate
+        type:
+          type: string
+          enum:
+          - custom
+          - free
+        valid_from:
+          type: string
+          format: date-time
+        valid_to:
+          type: string
+          format: date-time
+    GenerateFreeCertificateRequest:
+      type: object
+      required:
+      - domain_name_ids
+      properties:
+        domain_name_ids:
+          type: array
+          description: The IDs of the domain names for which to generate the certificate
+          items:
+            type: integer
+        redirect_http:
+          type: integer
+          enum:
+          - 0
+          - 1
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+      example:
+        status: ok
+    CertificateListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Certificate'
+    RemoveCertificatesRequest:
+      type: object
+      required:
+      - domain_name_ids
+      properties:
+        domain_name_ids:
+          type: array
+          description: The IDs of the domain names for which to remove the certificates
+          items:
+            type: integer
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+  parameters:
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer

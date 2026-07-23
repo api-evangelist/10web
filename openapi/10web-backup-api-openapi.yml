@@ -1,0 +1,212 @@
+openapi: 3.0.0
+info:
+  title: 10Web API V1 Account Backup API
+  description: 'The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web''s powerful hosting and website management capabilities into your own applications.
+
+    '
+servers:
+- url: https://api.10web.io
+tags:
+- name: Backup
+  description: Operations for backup management
+paths:
+  /v1/hosting/websites/{website_id}/backup/list:
+    get:
+      summary: List backups for a website
+      tags:
+      - Backup
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: List of backups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupListResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/backup/run:
+    post:
+      summary: Run a backup for a website
+      tags:
+      - Backup
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Backup started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v1/hosting/websites/{website_id}/backup/{backup_id}/restore:
+    post:
+      summary: Restore a backup
+      tags:
+      - Backup
+      parameters:
+      - $ref: '#/components/parameters/WebsiteId'
+      - $ref: '#/components/parameters/BackupId'
+      - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          description: Backup restored successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+  parameters:
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    BackupId:
+      name: backup_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  schemas:
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+      example:
+        status: ok
+    BackupItem:
+      type: object
+      properties:
+        backup_id:
+          type: integer
+          description: Unique identifier for the backup
+        backup_size:
+          type: integer
+          description: Size of the backup in bytes
+        backup_time:
+          type: string
+          description: Time when the backup was created (in format YYYYMMDDTHHmmssZ)
+        created_at:
+          type: string
+          format: date-time
+          description: Human-readable creation time of the backup
+        type:
+          type: string
+          description: Type of the backup (e.g., SCHEDULED, MANUAL)
+    BackupListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BackupItem'
+      example:
+        status: ok
+        data:
+        - backup_id: 25340
+          backup_size: 272243447
+          backup_time: 20240924T052401Z
+          created_at: Tue, 24 Sep 2024 05:24:42 GMT
+          type: SCHEDULED
+        - backup_id: 25553
+          backup_size: 272243447
+          backup_time: 20240925T052402Z
+          created_at: Wed, 25 Sep 2024 05:24:09 GMT
+          type: MANUAL

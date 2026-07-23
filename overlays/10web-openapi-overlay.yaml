@@ -1,0 +1,43 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay for 10Web API V1
+  version: 1.0.0
+x-provenance:
+  generated: '2026-07-17'
+  method: generated
+  source: openapi/10web-openapi.yaml
+  note: >-
+    Non-destructive OpenAPI Overlay 1.0.0 capturing API Evangelist enrichment
+    metadata. Does not mutate the upstream spec; apply against
+    openapi/10web-openapi.yaml.
+extends: ../openapi/10web-openapi.yaml
+actions:
+- target: $.info
+  description: Add contact and license discovery metadata.
+  update:
+    contact:
+      name: 10Web API Support
+      url: https://help.10web.io/hc/en-us
+    termsOfService: https://10web.io/legal/terms-of-service/
+    x-api-evangelist:
+      provider: 10web
+      catalog: https://apis.io/
+      status-page: https://status.10web.io/
+- target: $
+  description: Record a formal apiKey security scheme mirroring the x-api-key header used by all operations.
+  update:
+    components:
+      securitySchemes:
+        ApiKeyAuth:
+          type: apiKey
+          in: header
+          name: x-api-key
+          description: 10Web API key (Reseller Dashboard). Mirrors the shared x-api-key header parameter.
+- target: $.info
+  description: Note the custom error envelope shape used across responses.
+  update:
+    x-error-envelope:
+      format: custom-json
+      shape:
+        status: error
+        message: string

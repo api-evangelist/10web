@@ -1,0 +1,51 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/10web-openapi.yaml
+status: candidate
+summary: >-
+  No official hosted or remote Model Context Protocol (MCP) server was found for
+  10Web. The following candidate tool set is DERIVED from the 10Web API V1
+  operations as a proposal for an agent-facing MCP surface. Not published by
+  10Web.
+server: null
+transport: null
+auth:
+  type: apiKey
+  header: x-api-key
+candidate_tools:
+- name: list_websites
+  maps_to: GET /v1/account/websites
+  description: List all websites for the account.
+- name: create_website
+  maps_to: POST /v1/hosting/website
+  description: Create a website.
+- name: generate_ai_website
+  maps_to: POST /v1/ai/generate_site
+  description: Generate an AI-powered website from a business description.
+- name: generate_sitemap
+  maps_to: POST /v1/ai/generate_sitemap
+  description: Generate an outline, styles, and secondary pages from a business description.
+- name: delete_website
+  maps_to: DELETE /v1/account/websites/{website_id}/delete
+  description: Delete a website from the account.
+- name: enable_staging
+  maps_to: POST /v1/hosting/websites/{website_id}/staging/enable
+  description: Enable a staging environment for a website.
+- name: run_backup
+  maps_to: POST /v1/hosting/websites/{website_id}/backup/run
+  description: Run a backup for a website.
+- name: add_domain
+  maps_to: POST /v1/hosting/websites/{website_id}/domain-name
+  description: Add a domain name to a website.
+- name: list_dns_records
+  maps_to: GET /v1/hosting/zone/{zone_id}/records
+  description: List all DNS records for a zone.
+- name: create_dns_record
+  maps_to: POST /v1/hosting/zone/{zone_id}/records/create
+  description: Create a new DNS record for a zone.
+- name: clone_website
+  maps_to: POST /v1/hosting/clone
+  description: Clone a website to a new subdomain.
+- name: get_website_settings
+  maps_to: GET /v1/hosting/websites/{website_id}/settings
+  description: Get website settings.
