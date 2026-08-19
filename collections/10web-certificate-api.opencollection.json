@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "10Web API V1 Account Certificate API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Certificate",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get certificates for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/certificate",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get certificates for a website"
+        },
+        {
+          "info": {
+            "name": "Add custom certificate for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/certificate/custom",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add custom certificate for a website"
+        },
+        {
+          "info": {
+            "name": "Generate free certificate for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/certificate/free",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate free certificate for a website"
+        },
+        {
+          "info": {
+            "name": "Remove certificates from a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/certificate/remove",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Remove certificates from a website"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

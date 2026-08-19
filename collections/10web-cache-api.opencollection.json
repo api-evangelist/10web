@@ -1,0 +1,149 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "10Web API V1 Account Cache API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cache",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Enable FastCGI caching for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/cache/enable",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enable FastCGI caching for a website"
+        },
+        {
+          "info": {
+            "name": "Disable FastCGI caching for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/cache/disable",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Disable FastCGI caching for a website"
+        },
+        {
+          "info": {
+            "name": "Purge all cache for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/cache",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Purge all cache for a website"
+        },
+        {
+          "info": {
+            "name": "Toggle object cache for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/object-cache/toggle",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Toggle object cache for a website"
+        },
+        {
+          "info": {
+            "name": "Flush object cache for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/object-cache/flush",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Flush object cache for a website"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

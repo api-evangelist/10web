@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "10Web API V1 Account Subdomain API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subdomain",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check if a subdomain is available",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/subdomain/check",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Check if a subdomain is available"
+        },
+        {
+          "info": {
+            "name": "Generate a random available subdomain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/subdomain/generate",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ]
+          },
+          "docs": "Generate a random available subdomain"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,127 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "10Web API V1 Account Domain API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Domain",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get domain names for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/domain-name",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get domain names for a website"
+        },
+        {
+          "info": {
+            "name": "Add a domain name to a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/domain-name",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a domain name to a website"
+        },
+        {
+          "info": {
+            "name": "Set default domain name for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/domain-name/:domain_name_id/default",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "domain_name_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Set default domain name for a website"
+        },
+        {
+          "info": {
+            "name": "Delete a domain name from a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/domain-name/:domain_name_id/delete",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "domain_name_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a domain name from a website"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

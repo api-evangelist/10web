@@ -1,0 +1,257 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "10Web API V1 Account Vibe Coding API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Vibe Coding",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a website and generate WVC content",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/wvc-website",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Combined endpoint that creates a new website and immediately triggers WordPress Vibe Coding\n(WVC) content generation on it. Performs the following steps in sequence:\n\n1. **Create website** — provisions a new WordPress website with the specified hosting parameters.\n2. **Configure WVC** — installs the WVC theme and removes incompatible plugins.\n3. **Generate WVC content** — submits the WVC generation request. The gateway waits up to\n   10 seconds for the WVC service to respond; if it times out the"
+        },
+        {
+          "info": {
+            "name": "Set WVC plan data for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/set-wvc-plan-data",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Activates the WordPress Vibe Coding (WVC) plan on a website by writing the\n`wvc_plan_data` option directly to WordPress via WP-CLI. This sets a\n`WVC monthly` plan with a 2-day trial period starting from\ntoday's date.\n\nCall this endpoint before triggering WVC generation on an existing website to\nensure the correct plan is in place.\n\n**Request body fields:**\n\n- `option_name` — Must be `wvc_plan_data`.\n- `option_value.plan_title` — The name of the WVC plan displayed in the editor.\n- `option_value.t"
+        },
+        {
+          "info": {
+            "name": "Get default WVC plan data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/reseller/wvc-plan-defaults",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ]
+          },
+          "docs": "Returns the workspace-level WVC plan data defaults. These defaults are automatically\napplied to the `wvc_plan_data` WordPress option when a new website is created via\nthe API gateway, if no per-website override is provided.\n\n**⚠️ Service Requirement:**\nThis feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.\nIf the WVC service is not enabled, this feature will be unavailable and API requests may return\nan error response. Please contact support to enable this "
+        },
+        {
+          "info": {
+            "name": "Set default WVC plan data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/reseller/wvc-plan-defaults",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets the workspace-level WVC plan data defaults. When a new website is created via\nthe API gateway, these defaults are automatically written to the `wvc_plan_data`\nWordPress option.\n\nThis is an **upsert** — the entire defaults object is replaced on each call.\nTo update a single field without losing others, include all existing fields in the request.\n\n**Currently supported fields:**\n- `plan_title` — the WVC plan name shown in the editor (e.g. `\"WVC monthly\"`)\n- `upgrade_url` — custom upgrade link"
+        },
+        {
+          "info": {
+            "name": "Generate website content using WordPress Vibe Coding",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/wvc/:website_id/create",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates AI-powered website content from a provided outline and business information.\nThis endpoint generates React-based components that integrate with WordPress through\nthe WordPress Vibe Coding system, providing modern, editable website content.\n\n**⚠️ Service Requirement:**\nThis feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.\nIf the WVC service is not enabled, this feature will be unavailable and API requests may return\nan error response. Please contact"
+        },
+        {
+          "info": {
+            "name": "Get WVC custom limitations for a  website",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/wvc/websites/:website_id/custom-limitations/",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves the current WVC usage limitations for a specific website, including\nthe maximum allowed counts and current usage for WVC website creation and editing features.\n\n**⚠️ Service Requirement:**\nThis feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.\nIf the WVC service is not enabled, this feature will be unavailable and API requests may return\nan error response. Please contact support to enable this service.\n"
+        },
+        {
+          "info": {
+            "name": "Update WVC custom limitations for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.10web.io/v1/wvc/websites/:website_id/custom-limitations/",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the WVC usage limitations for a specific website. You can set custom limits\nfor the number of WVC website creations and edits allowed for this website.\nOptionally resets the usage counters in the same call by passing `reset_usage: 1` —\nthis removes the need to make a separate call to `POST /v1/wvc/websites/{website_id}/reset-usage/`.\n\n**⚠️ Service Requirement:**\nThis feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.\nIf the WVC service is not enabled"
+        },
+        {
+          "info": {
+            "name": "Reset WVC usage counters for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/wvc/websites/:website_id/reset-usage/",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Resets the WVC usage counters (creations and edits used) for a specific website back to zero.\n\n**⚠️ Service Requirement:**\nThis feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.\nIf the WVC service is not enabled, this feature will be unavailable and API requests may return\nan error response. Please contact support to enable this service.\n"
+        },
+        {
+          "info": {
+            "name": "Generate autologin URL for WVC editor access",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/wvc/websites/:website_id/autologin",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a single-use autologin URL that logs the user directly into the WordPress\nadmin panel with the WVC editor open, without requiring manual credential entry.\n\n**⚠️ Service Requirement:**\nThis feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.\nIf the WVC service is not enabled, this feature will be unavailable and API requests may return\nan error response. Please contact support to enable this service.\n"
+        },
+        {
+          "info": {
+            "name": "Set default WVC generation limits",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/wvc/generation-configs/default-website-limit/",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets the default WVC generation limits applied to all workspaces. This is an\nadministrative endpoint for configuring the baseline number of WVC website creations\nand edits available to users.\n\n**⚠️ Service Requirement:**\nThis feature requires the WordPress Vibe Coding (WVC) service to be enabled for your account.\nIf the WVC service is not enabled, this feature will be unavailable and API requests may return\nan error response. Please contact support to enable this service.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

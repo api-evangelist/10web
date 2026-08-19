@@ -1,0 +1,94 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "10Web API V1 Account Backup API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Backup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List backups for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/backup/list",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List backups for a website"
+        },
+        {
+          "info": {
+            "name": "Run a backup for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/backup/run",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Run a backup for a website"
+        },
+        {
+          "info": {
+            "name": "Restore a backup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/backup/:backup_id/restore",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "backup_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Restore a backup"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

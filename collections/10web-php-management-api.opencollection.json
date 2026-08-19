@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "10Web API V1 Account PHP Management API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PHP Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Switch PHP version for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/php-version/switch",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Switch PHP version for a website"
+        },
+        {
+          "info": {
+            "name": "Restart PHP for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/php/restart",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Restart PHP for a website"
+        },
+        {
+          "info": {
+            "name": "Get supported PHP versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/supported-php-versions",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ]
+          },
+          "docs": "Get supported PHP versions"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

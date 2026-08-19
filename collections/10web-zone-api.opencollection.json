@@ -1,0 +1,165 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "10Web API V1 Account Zone API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Zone",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get zones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/zone",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ]
+          },
+          "docs": "Get zones"
+        },
+        {
+          "info": {
+            "name": "Get all available zones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/zone/available",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ]
+          },
+          "docs": "Get all available zones"
+        },
+        {
+          "info": {
+            "name": "Get all DNS records for a zone",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/zone/:zone_id/records",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "zone_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get all DNS records for a zone"
+        },
+        {
+          "info": {
+            "name": "Create a new DNS record for a zone",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/zone/:zone_id/records/create",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "zone_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new DNS record for a zone"
+        },
+        {
+          "info": {
+            "name": "Update an existing DNS record",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.10web.io/v1/hosting/zone/:zone_id/records/:record_id/update",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "zone_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "record_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing DNS record"
+        },
+        {
+          "info": {
+            "name": "Delete a DNS record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/zone/:zone_id/records/:record_id",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "zone_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "record_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a DNS record"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

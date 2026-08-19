@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "10Web API V1 Account Section Based AI API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Section Based AI",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate an AI-powered website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/ai/generate_site",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate an AI-powered website"
+        },
+        {
+          "info": {
+            "name": "Generate a website using a previously created outline, styles, and secondary pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/ai/generate_site_from_sitemap",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate a website using a previously created outline, styles, and secondary pages"
+        },
+        {
+          "info": {
+            "name": "Generate outline, styles, and secondary pages from a given business description",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/ai/generate_sitemap",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate outline, styles, and secondary pages from a given business description"
+        },
+        {
+          "info": {
+            "name": "Create a website with AI-generated content",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/ai-website",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new website and automatically generates AI-powered content for it in a single operation. \nThis endpoint combines website creation with AI site generation, providing a streamlined \nworkflow for creating fully functional websites with AI-generated content.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

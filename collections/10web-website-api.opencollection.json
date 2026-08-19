@@ -1,0 +1,469 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "10Web API V1 Account Website API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Website",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/website",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a website"
+        },
+        {
+          "info": {
+            "name": "Get user info for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/user_info",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get user info for a website"
+        },
+        {
+          "info": {
+            "name": "Get instance info for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/instance-info",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get instance info for a website"
+        },
+        {
+          "info": {
+            "name": "Enable staging for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/staging/enable",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Enable staging for a website"
+        },
+        {
+          "info": {
+            "name": "Disable staging for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:staging_website_id/staging/disable",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "staging_website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Disable staging for a website"
+        },
+        {
+          "info": {
+            "name": "Push changes to live environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:staging_website_id/push-to-live",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "staging_website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Push changes to live environment"
+        },
+        {
+          "info": {
+            "name": "Push changes to staging environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/push-to-staging",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Push changes to staging environment"
+        },
+        {
+          "info": {
+            "name": "Enable a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/enable",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Enables a website and makes it accessible. If the website has staging enabled, \nthe staging environment will also be enabled along with the main website.\n"
+        },
+        {
+          "info": {
+            "name": "Disable a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/disable",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Disables a website and makes it inaccessible. If the website has staging enabled, \nboth the main website and staging environment will be disabled.\n"
+        },
+        {
+          "info": {
+            "name": "Update tenweb-builder plugin for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/update-builder",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Updates the AI builder plugin to the latest version for a specific website. \nThis endpoint automatically detects whether the website is live or staging and updates \nthe appropriate environment accordingly.\n"
+        },
+        {
+          "info": {
+            "name": "Update wvc-theme for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/update-wvc-theme",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Updates the WVC theme to the latest version for a specific website.\nThis endpoint automatically detects whether the website is live or staging and updates\nthe appropriate environment accordingly.\n"
+        },
+        {
+          "info": {
+            "name": "Get logs for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/logs",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of log to retrieve"
+              },
+              {
+                "name": "lines",
+                "value": "",
+                "type": "query",
+                "description": "Number of log lines to retrieve"
+              }
+            ]
+          },
+          "docs": "Get logs for a website"
+        },
+        {
+          "info": {
+            "name": "Toggle password protection for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/password-protection",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Toggle password protection for a website"
+        },
+        {
+          "info": {
+            "name": "Whitelist IP address for password-protected website",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/whitelist/ip",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds an IP address to the whitelist for a password-protected website, allowing access without password authentication"
+        },
+        {
+          "info": {
+            "name": "Get website settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/settings",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get website settings"
+        },
+        {
+          "info": {
+            "name": "Get storage information for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/storage",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get storage information for a website"
+        },
+        {
+          "info": {
+            "name": "Get visitor statistics for a website",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/hosting/websites/:website_id/visitors",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "Time period for visitor statistics"
+              }
+            ]
+          },
+          "docs": "Get visitor statistics for a website"
+        },
+        {
+          "info": {
+            "name": "Clone a website to a new subdomain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.10web.io/v1/hosting/clone",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a copy of an existing website with a new subdomain. This operation \nmigrates the website to a new location while preserving the original website.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

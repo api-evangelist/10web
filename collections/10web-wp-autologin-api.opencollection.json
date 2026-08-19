@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "10Web API V1 Account WP Autologin API"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "WP Autologin",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate single-use autologin token for website admin access",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.10web.io/v1/account/websites/:website_id/single?admin_url=:wp_admin_url",
+            "headers": [
+              {
+                "name": "x-api-key",
+                "value": "API_KEY"
+              }
+            ],
+            "params": [
+              {
+                "name": "website_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "admin_url",
+                "value": "https://mywebsite.example.com/wp-admin",
+                "type": "query",
+                "description": "URL of the WordPress admin panel"
+              }
+            ]
+          },
+          "docs": "Generates a single-use token for secure, passwordless access to a website's WordPress admin panel.\nThe token is valid for 5 minutes and can be used to automatically log in or create an admin user.\n\nThe autologin feature allows for secure, tokenized access to WordPress admin panels without requiring manual credential entry. The system generates single-use tokens with a 5-minute TTL that can be used to:\n\n1. Log in automatically as an existing user if the email matches a WordPress user\n2. Create a "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
