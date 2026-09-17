@@ -241,28 +241,6 @@ apis:
     url: conformance/10web-conformance.yml
   - type: DataModel
     url: data-model/10web-data-model.yml
-- aid: 10web:10web-subdomain-api
-  name: 10Web Subdomain API
-  description: Operations for subdomain management
-  humanURL: https://apidocs.10web.io/
-  baseURL: https://api.10web.io
-  tags:
-  - Subdomain
-  properties:
-  - type: OpenAPI
-    url: openapi/10web-subdomain-api-openapi.yml
-  - type: Authentication
-    url: authentication/10web-authentication.yml
-  - type: Webhooks
-    url: asyncapi/10web-webhooks.yml
-  - type: Conventions
-    url: conventions/10web-conventions.yml
-  - type: ErrorCatalog
-    url: errors/10web-problem-types.yml
-  - type: Conformance
-    url: conformance/10web-conformance.yml
-  - type: DataModel
-    url: data-model/10web-data-model.yml
 - aid: 10web:10web-vibe-coding-api
   name: 10Web Vibe Coding API
   description: Operations for WordPress Vibe Coding - AI-powered website content generation
@@ -339,6 +317,28 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/10web-zone-api-openapi.yml
+  - type: Authentication
+    url: authentication/10web-authentication.yml
+  - type: Webhooks
+    url: asyncapi/10web-webhooks.yml
+  - type: Conventions
+    url: conventions/10web-conventions.yml
+  - type: ErrorCatalog
+    url: errors/10web-problem-types.yml
+  - type: Conformance
+    url: conformance/10web-conformance.yml
+  - type: DataModel
+    url: data-model/10web-data-model.yml
+- aid: 10web:10web-sub-domain-api
+  name: 10Web Sub Domain API
+  description: Operations for subdomain management
+  humanURL: https://apidocs.10web.io/
+  baseURL: https://api.10web.io
+  tags:
+  - Sub Domain
+  properties:
+  - type: OpenAPI
+    url: openapi/10web-sub-domain-api-openapi.yml
   - type: Authentication
     url: authentication/10web-authentication.yml
   - type: Webhooks
