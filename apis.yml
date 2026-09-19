@@ -48,6 +48,9 @@ specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-07-17'
 image: https://10web.io/wp-content/uploads/2025/03/OG-img4.jpg
+x-docs-platform: redocly
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-09-17
 tags:
 - Company
 - Artificial Intelligence
@@ -269,6 +272,8 @@ apis:
   humanURL: https://apidocs.10web.io/
   baseURL: https://api.10web.io
   tags:
+  - Websites
+  tags_raw:
   - Website
   properties:
   - type: OpenAPI
