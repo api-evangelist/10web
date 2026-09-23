@@ -1,9 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: 10Web API V1 Account Builder API
-  description: 'The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web''s powerful hosting and website management capabilities into your own applications.
-
-    '
+  title: 10Web API V1 Builder API
+  description: The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web's powerful hosting and website management capabilities into your own applications.
 servers:
 - url: https://api.10web.io
 tags:
@@ -32,6 +30,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: getV1BuilderWebsitesByWebsiteIdPages
+      x-operation-id-source: derived
   /v1/builder/websites/{website_id}/pages/blank/add:
     post:
       summary: Add a blank page to a website
@@ -62,6 +62,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1BuilderWebsitesByWebsiteIdPagesBlankAdd
+      x-operation-id-source: derived
   /v1/builder/websites/{website_id}/pages/delete:
     post:
       summary: Delete pages from a website
@@ -92,6 +94,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1BuilderWebsitesByWebsiteIdPagesDelete
+      x-operation-id-source: derived
   /v1/builder/websites/{website_id}/pages/publish:
     post:
       summary: Update page status for website pages
@@ -122,6 +126,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1BuilderWebsitesByWebsiteIdPagesPublish
+      x-operation-id-source: derived
   /v1/builder/websites/{website_id}/pages/front/set:
     post:
       summary: Set a page as the front page
@@ -152,6 +158,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1BuilderWebsitesByWebsiteIdPagesFrontSet
+      x-operation-id-source: derived
   /v1/builder/websites/{website_id}/build_secondary_page:
     post:
       summary: Build a secondary page from description
@@ -159,9 +167,7 @@ paths:
 
         This endpoint orchestrates multiple AI service calls to generate page content based
 
-        on business information and page description.
-
-        '
+        on business information and page description.'
       tags:
       - Builder
       parameters:
@@ -188,8 +194,50 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1BuilderWebsitesByWebsiteIdBuildSecondaryPage
+      x-operation-id-source: derived
 components:
   schemas:
+    PublishPagesResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Status message
+        status:
+          type: integer
+          description: HTTP status code
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Success message
+      example:
+        msg: Success
+        status: 200
+        data:
+          message: Page is published.
+    SetFrontPageResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Status message
+        status:
+          type: integer
+          description: HTTP status code
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Success message
+      example:
+        msg: Success
+        status: 200
+        data:
+          message: Page is set as frontpage.
     DeletePagesRequest:
       type: object
       required:
@@ -213,55 +261,6 @@ components:
           type: string
           description: ID of the created page
           example: '204'
-    SetFrontPageRequest:
-      type: object
-      required:
-      - page_id
-      properties:
-        page_id:
-          type: integer
-          description: ID of the page to set as the front page
-          example: 80
-    PublishPagesResponse:
-      type: object
-      properties:
-        msg:
-          type: string
-          description: Status message
-        status:
-          type: integer
-          description: HTTP status code
-        data:
-          type: object
-          properties:
-            message:
-              type: string
-              description: Success message
-      example:
-        msg: Success
-        status: 200
-        data:
-          message: Page is published.
-    DeletePagesResponse:
-      type: object
-      properties:
-        msg:
-          type: string
-          description: Status message
-        status:
-          type: integer
-          description: HTTP status code
-        data:
-          type: object
-          properties:
-            message:
-              type: string
-              description: Success message
-      example:
-        msg: Success
-        status: 200
-        data:
-          message: Page is deleted.
     GetPagesResponse:
       type: object
       properties:
@@ -311,26 +310,6 @@ components:
           template_type: ''
           is_edited: false
           post_status: publish
-    SetFrontPageResponse:
-      type: object
-      properties:
-        msg:
-          type: string
-          description: Status message
-        status:
-          type: integer
-          description: HTTP status code
-        data:
-          type: object
-          properties:
-            message:
-              type: string
-              description: Success message
-      example:
-        msg: Success
-        status: 200
-        data:
-          message: Page is set as frontpage.
     BuilderPage:
       type: object
       properties:
@@ -372,9 +351,102 @@ components:
           - pending
           - private
         page_on_front:
-          type: boolean
+          type:
+          - boolean
+          - 'null'
           description: Whether this page is set as the front page
-          nullable: true
+    PublishPagesRequest:
+      type: object
+      required:
+      - action
+      - page_ids
+      properties:
+        action:
+          type: string
+          description: Action to perform on the pages
+          enum:
+          - publish
+          - draft
+          - pending
+          - private
+          example: publish
+        page_ids:
+          type: array
+          description: Array of page IDs to publish
+          items:
+            type: integer
+          example:
+          - 54
+    DeletePagesResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Status message
+        status:
+          type: integer
+          description: HTTP status code
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Success message
+      example:
+        msg: Success
+        status: 200
+        data:
+          message: Page is deleted.
+    BuildSecondaryPageRequest:
+      type: object
+      required:
+      - page_title
+      - page_description
+      properties:
+        page_title:
+          type: string
+          description: Title for the new page
+          example: About Us
+        page_description:
+          type: string
+          description: Description of the page content to be generated
+          example: A page describing our company history and values
+        post_status:
+          type: string
+          description: Publication status of the page
+          default: draft
+          enum:
+          - draft
+          - publish
+          example: draft
+    CreateBlankPageRequest:
+      type: object
+      required:
+      - page_title
+      - post_status
+      properties:
+        page_title:
+          type: string
+          description: Title for the new page
+          example: My New Page
+        post_status:
+          type: string
+          description: Publication status for the new page
+          enum:
+          - publish
+          - draft
+          - pending
+          - private
+          example: publish
+    SetFrontPageRequest:
+      type: object
+      required:
+      - page_id
+      properties:
+        page_id:
+          type: integer
+          description: ID of the page to set as the front page
+          example: 80
     CreateBlankPageResponse:
       type: object
       properties:
@@ -424,98 +496,7 @@ components:
           template_type: ''
           is_edited: false
           post_status: publish
-    BuildSecondaryPageRequest:
-      type: object
-      required:
-      - page_title
-      - page_description
-      properties:
-        page_title:
-          type: string
-          description: Title for the new page
-          example: About Us
-        page_description:
-          type: string
-          description: Description of the page content to be generated
-          example: A page describing our company history and values
-        post_status:
-          type: string
-          description: Publication status of the page
-          default: draft
-          enum:
-          - draft
-          - publish
-          example: draft
-    CreateBlankPageRequest:
-      type: object
-      required:
-      - page_title
-      - post_status
-      properties:
-        page_title:
-          type: string
-          description: Title for the new page
-          example: My New Page
-        post_status:
-          type: string
-          description: Publication status for the new page
-          enum:
-          - publish
-          - draft
-          - pending
-          - private
-          example: publish
-    PublishPagesRequest:
-      type: object
-      required:
-      - action
-      - page_ids
-      properties:
-        action:
-          type: string
-          description: Action to perform on the pages
-          enum:
-          - publish
-          - draft
-          - pending
-          - private
-          example: publish
-        page_ids:
-          type: array
-          description: Array of page IDs to publish
-          items:
-            type: integer
-          example:
-          - 54
   responses:
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
     BadRequest:
       description: Bad request
       content:
@@ -544,6 +525,34 @@ components:
               message:
                 type: string
                 example: Something went wrong
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
   parameters:
     Authorization:
       name: x-api-key

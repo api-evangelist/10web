@@ -1,20 +1,18 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: 10Web API V1 Account Subdomain API
-  description: 'The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web''s powerful hosting and website management capabilities into your own applications.
-
-    '
+  title: 10Web API V1 Subdomain API
+  description: The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web's powerful hosting and website management capabilities into your own applications.
 servers:
 - url: https://api.10web.io
 tags:
-- name: Subdomain
+- name: Sub Domain
   description: Operations for subdomain management
 paths:
   /v1/hosting/websites/subdomain/check:
     post:
       summary: Check if a subdomain is available
       tags:
-      - Subdomain
+      - Sub Domain
       parameters:
       - $ref: '#/components/parameters/Authorization'
       requestBody:
@@ -57,11 +55,13 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesSubdomainCheck
+      x-operation-id-source: derived
   /v1/hosting/websites/subdomain/generate:
     post:
       summary: Generate a random available subdomain
       tags:
-      - Subdomain
+      - Sub Domain
       parameters:
       - $ref: '#/components/parameters/Authorization'
       responses:
@@ -89,36 +89,10 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesSubdomainGenerate
+      x-operation-id-source: derived
 components:
   responses:
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
     BadRequest:
       description: Bad request
       content:
@@ -147,6 +121,34 @@ components:
               message:
                 type: string
                 example: Something went wrong
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
   parameters:
     Authorization:
       name: x-api-key

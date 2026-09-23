@@ -1,9 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: 10Web API V1 Account PHP Management API
-  description: 'The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web''s powerful hosting and website management capabilities into your own applications.
-
-    '
+  title: 10Web API V1 PHP Management API
+  description: The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web's powerful hosting and website management capabilities into your own applications.
 servers:
 - url: https://api.10web.io
 tags:
@@ -46,6 +44,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByWebsiteIdPhpVersionSwitch
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/php/restart:
     post:
       summary: Restart PHP for a website
@@ -67,6 +67,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByWebsiteIdPhpRestart
+      x-operation-id-source: derived
   /v1/hosting/supported-php-versions:
     get:
       summary: Get supported PHP versions
@@ -107,36 +109,10 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: getV1HostingSupportedPhpVersions
+      x-operation-id-source: derived
 components:
   responses:
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
     BadRequest:
       description: Bad request
       content:
@@ -165,6 +141,34 @@ components:
               message:
                 type: string
                 example: Something went wrong
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
   parameters:
     Authorization:
       name: x-api-key

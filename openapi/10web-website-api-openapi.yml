@@ -1,9 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: 10Web API V1 Account Website API
-  description: 'The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web''s powerful hosting and website management capabilities into your own applications.
-
-    '
+  title: 10Web API V1 Website API
+  description: The 10Web API provides a comprehensive set of endpoints for managing websites, DNS zones, domains, SSL certificates, backups, and more. This RESTful API allows you to integrate 10Web's powerful hosting and website management capabilities into your own applications.
 servers:
 - url: https://api.10web.io
 tags:
@@ -38,6 +36,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsite
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/user_info:
     get:
       summary: Get user info for a website
@@ -59,6 +59,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: getV1HostingWebsitesByWebsiteIdUserInfo
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/instance-info:
     get:
       summary: Get instance info for a website
@@ -80,6 +82,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: getV1HostingWebsitesByWebsiteIdInstanceInfo
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/staging/enable:
     post:
       summary: Enable staging for a website
@@ -103,6 +107,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByWebsiteIdStagingEnable
+      x-operation-id-source: derived
   /v1/hosting/websites/{staging_website_id}/staging/disable:
     post:
       summary: Disable staging for a website
@@ -126,6 +132,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByStagingWebsiteIdStagingDisable
+      x-operation-id-source: derived
   /v1/hosting/websites/{staging_website_id}/push-to-live:
     post:
       summary: Push changes to live environment
@@ -149,6 +157,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByStagingWebsiteIdPushToLive
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/push-to-staging:
     post:
       summary: Push changes to staging environment
@@ -172,10 +182,14 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByWebsiteIdPushToStaging
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/enable:
     post:
       summary: Enable a website
-      description: "Enables a website and makes it accessible. If the website has staging enabled, \nthe staging environment will also be enabled along with the main website.\n"
+      description: 'Enables a website and makes it accessible. If the website has staging enabled,
+
+        the staging environment will also be enabled along with the main website.'
       tags:
       - Website
       parameters:
@@ -196,10 +210,14 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByWebsiteIdEnable
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/disable:
     post:
       summary: Disable a website
-      description: "Disables a website and makes it inaccessible. If the website has staging enabled, \nboth the main website and staging environment will be disabled.\n"
+      description: 'Disables a website and makes it inaccessible. If the website has staging enabled,
+
+        both the main website and staging environment will be disabled.'
       tags:
       - Website
       parameters:
@@ -220,10 +238,16 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByWebsiteIdDisable
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/update-builder:
     post:
       summary: Update tenweb-builder plugin for a website
-      description: "Updates the AI builder plugin to the latest version for a specific website. \nThis endpoint automatically detects whether the website is live or staging and updates \nthe appropriate environment accordingly.\n"
+      description: 'Updates the AI builder plugin to the latest version for a specific website.
+
+        This endpoint automatically detects whether the website is live or staging and updates
+
+        the appropriate environment accordingly.'
       tags:
       - Website
       parameters:
@@ -254,6 +278,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByWebsiteIdUpdateBuilder
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/update-wvc-theme:
     post:
       summary: Update wvc-theme for a website
@@ -261,9 +287,7 @@ paths:
 
         This endpoint automatically detects whether the website is live or staging and updates
 
-        the appropriate environment accordingly.
-
-        '
+        the appropriate environment accordingly.'
       tags:
       - Website
       parameters:
@@ -304,6 +328,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByWebsiteIdUpdateWvcTheme
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/logs:
     get:
       summary: Get logs for a website
@@ -360,6 +386,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: getV1HostingWebsitesByWebsiteIdLogs
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/password-protection:
     post:
       summary: Toggle password protection for a website
@@ -410,6 +438,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByWebsiteIdPasswordProtection
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/whitelist/ip:
     post:
       summary: Whitelist IP address for password-protected website
@@ -458,6 +488,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingWebsitesByWebsiteIdWhitelistIp
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/settings:
     get:
       summary: Get website settings
@@ -519,6 +551,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: getV1HostingWebsitesByWebsiteIdSettings
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/storage:
     get:
       summary: Get storage information for a website
@@ -556,6 +590,8 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: getV1HostingWebsitesByWebsiteIdStorage
+      x-operation-id-source: derived
   /v1/hosting/websites/{website_id}/visitors:
     get:
       summary: Get visitor statistics for a website
@@ -632,10 +668,14 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: getV1HostingWebsitesByWebsiteIdVisitors
+      x-operation-id-source: derived
   /v1/hosting/clone:
     post:
       summary: Clone a website to a new subdomain
-      description: "Creates a copy of an existing website with a new subdomain. This operation \nmigrates the website to a new location while preserving the original website.\n"
+      description: 'Creates a copy of an existing website with a new subdomain. This operation
+
+        migrates the website to a new location while preserving the original website.'
       tags:
       - Website
       parameters:
@@ -686,65 +726,60 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      operationId: postV1HostingClone
+      x-operation-id-source: derived
 components:
-  responses:
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
   schemas:
+    CreateWebsiteRequest:
+      type: object
+      required:
+      - subdomain
+      - region
+      - site_title
+      - admin_username
+      - admin_password
+      properties:
+        subdomain:
+          type: string
+          description: Subdomain for the website (3-63 characters, lowercase letters, numbers, and hyphens only)
+        region:
+          type: string
+          description: Region of the website
+        site_title:
+          type: string
+          description: Title of the website
+        admin_username:
+          type: string
+          description: Admin username for the website (max 60 characters, can contain alphanumeric characters, space, _, ., -, *, @)
+        admin_password:
+          type: string
+          description: Admin password for the website (must contain 1 lowercase, 1 uppercase, 1 digit, minimum 8 chars)
+        is_demo:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: Specifies if this website is a demo (0 = regular website, 1 = demo website)
+        demo_domain_delete_after_days:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 7
+          description: Number of days after which demo website will be deleted (only applicable when is_demo = 1)
+        enable_wp_ai_generation:
+          type: boolean
+          description: Enable AI website builder functionality in WordPress admin panel
+          default: false
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+      example:
+        status: ok
     UserInfoResponse:
       type: object
       properties:
@@ -805,34 +840,6 @@ components:
             port: 22
             type: sftp
             username: SFTP_USERNAME
-    WebsiteResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-        data:
-          type: object
-          properties:
-            website_id:
-              type: integer
-              description: The ID of the created website
-      example:
-        status: ok
-        data:
-          website_id: 15604
-    StatusResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-      example:
-        status: ok
     InstanceInfoResponse:
       type: object
       properties:
@@ -859,46 +866,81 @@ components:
           ip: 34.172.74.94
           location: Council Bluffs, Iowa, USA
           region: us-central1-c
-    CreateWebsiteRequest:
+    WebsiteResponse:
       type: object
-      required:
-      - subdomain
-      - region
-      - site_title
-      - admin_username
-      - admin_password
       properties:
-        subdomain:
+        status:
           type: string
-          description: Subdomain for the website (3-63 characters, lowercase letters, numbers, and hyphens only)
-        region:
-          type: string
-          description: Region of the website
-        site_title:
-          type: string
-          description: Title of the website
-        admin_username:
-          type: string
-          description: Admin username for the website (max 60 characters, can contain alphanumeric characters, space, _, ., -, *, @)
-        admin_password:
-          type: string
-          description: Admin password for the website (must contain 1 lowercase, 1 uppercase, 1 digit, minimum 8 chars)
-        is_demo:
-          type: integer
           enum:
-          - 0
-          - 1
-          description: Specifies if this website is a demo (0 = regular website, 1 = demo website)
-        demo_domain_delete_after_days:
-          type: integer
-          minimum: 1
-          maximum: 30
-          default: 7
-          description: Number of days after which demo website will be deleted (only applicable when is_demo = 1)
-        enable_wp_ai_generation:
-          type: boolean
-          description: Enable AI website builder functionality in WordPress admin panel
-          default: false
+          - ok
+          - error
+        data:
+          type: object
+          properties:
+            website_id:
+              type: integer
+              description: The ID of the created website
+      example:
+        status: ok
+        data:
+          website_id: 15604
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
   parameters:
     Authorization:
       name: x-api-key
@@ -908,14 +950,14 @@ components:
         type: string
       description: API key for authentication
       example: API_KEY
-    StagingWebsiteId:
-      name: staging_website_id
+    WebsiteId:
+      name: website_id
       in: path
       required: true
       schema:
         type: integer
-    WebsiteId:
-      name: website_id
+    StagingWebsiteId:
+      name: staging_website_id
       in: path
       required: true
       schema:

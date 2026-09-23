@@ -1,19 +1,7 @@
 {
   "provider": "10web",
   "sources": [
-    "10web-account-api-openapi.yml",
-    "10web-backup-api-openapi.yml",
-    "10web-builder-api-openapi.yml",
-    "10web-cache-api-openapi.yml",
-    "10web-certificate-api-openapi.yml",
-    "10web-domain-api-openapi.yml",
-    "10web-php-management-api-openapi.yml",
-    "10web-section-based-ai-api-openapi.yml",
-    "10web-subdomain-api-openapi.yml",
-    "10web-vibe-coding-api-openapi.yml",
-    "10web-website-api-openapi.yml",
-    "10web-wp-autologin-api-openapi.yml",
-    "10web-zone-api-openapi.yml"
+    "_original/10web-openapi.yaml"
   ],
   "outputs": [
     "10web-account-api-openapi.yml",
@@ -26,27 +14,36 @@
     "10web-section-based-ai-api-openapi.yml",
     "10web-subdomain-api-openapi.yml",
     "10web-vibe-coding-api-openapi.yml",
-    "10web-website-api-openapi.yml",
     "10web-wp-autologin-api-openapi.yml",
+    "10web-website-api-openapi.yml",
     "10web-zone-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [
-    "10web-account-api-openapi.yml: info.version missing",
-    "10web-backup-api-openapi.yml: info.version missing",
-    "10web-builder-api-openapi.yml: info.version missing",
-    "10web-cache-api-openapi.yml: info.version missing",
-    "10web-certificate-api-openapi.yml: info.version missing",
-    "10web-domain-api-openapi.yml: info.version missing",
-    "10web-php-management-api-openapi.yml: info.version missing",
-    "10web-section-based-ai-api-openapi.yml: info.version missing",
-    "10web-subdomain-api-openapi.yml: info.version missing",
-    "10web-vibe-coding-api-openapi.yml: info.version missing",
-    "10web-website-api-openapi.yml: info.version missing",
-    "10web-wp-autologin-api-openapi.yml: info.version missing",
-    "10web-zone-api-openapi.yml: info.version missing"
+    "10web-openapi.yaml: info.version missing"
   ],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "10web-openapi.yaml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: 10web-sub-domain-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 13 total)"
+  ],
+  "skipped": [
+    "10web-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-backup-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-builder-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-cache-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-certificate-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-domain-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-php-management-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-section-based-ai-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-sub-domain-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-vibe-coding-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-website-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-wp-autologin-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "10web-zone-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

@@ -1,0 +1,31 @@
+# Front Door AI Index — 10web — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: 10web
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: 10web.io
+  final_host: 10web.io
+  ownership: own
+  owner: 10web
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 61
+  host_score: 61
+  density: 37.08
+  words: 1645
+  tiers:
+    agentic: 11
+    core: 50
+    model: 0
+  ambiguous: 6
+  top_terms:
+    AI: 50
+    agent: 6
+    agentic: 4
+    fine-tune: 3
+    prompts: 2
+    AI agent: 1
+    copilot: 1
