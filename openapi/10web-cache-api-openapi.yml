@@ -183,34 +183,6 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
     TooManyRequests:
       description: Too many requests
       content:
@@ -225,6 +197,20 @@ components:
               message:
                 type: string
                 example: Too many requests. Please try again later.
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
     Unauthorized:
       description: Unauthorized access
       content:
@@ -239,21 +225,20 @@ components:
               message:
                 type: string
                 example: Unauthorized access
-  parameters:
-    Authorization:
-      name: x-api-key
-      in: header
-      required: true
-      schema:
-        type: string
-      description: API key for authentication
-      example: API_KEY
-    WebsiteId:
-      name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
   schemas:
     StatusResponse:
       type: object
@@ -265,3 +250,18 @@ components:
           - error
       example:
         status: ok
+  parameters:
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY

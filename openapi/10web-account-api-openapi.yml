@@ -77,65 +77,14 @@ paths:
       operationId: postV1AccountWebsitesByWebsiteIdConvertToLive
       x-operation-id-source: derived
 components:
-  parameters:
-    Authorization:
-      name: x-api-key
-      in: header
-      required: true
-      schema:
-        type: string
-      description: API key for authentication
-      example: API_KEY
-    WebsiteId:
-      name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer
-  responses:
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
   schemas:
+    AccountWebsitesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountWebsite'
     StatusResponse:
       type: object
       properties:
@@ -146,13 +95,6 @@ components:
           - error
       example:
         status: ok
-    AccountWebsitesResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountWebsite'
     AccountWebsite:
       type: object
       properties:
@@ -184,3 +126,61 @@ components:
         type: live
         created_at: '2024-09-23 07:08:47'
         updated_at: '2024-10-10 11:22:25'
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+  parameters:
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY

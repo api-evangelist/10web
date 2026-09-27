@@ -81,35 +81,28 @@ paths:
       operationId: postV1HostingWebsitesByWebsiteIdBackupByBackupIdRestore
       x-operation-id-source: derived
 components:
+  parameters:
+    BackupId:
+      name: backup_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
   responses:
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
     TooManyRequests:
       description: Too many requests
       content:
@@ -124,6 +117,20 @@ components:
               message:
                 type: string
                 example: Too many requests. Please try again later.
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
     Unauthorized:
       description: Unauthorized access
       content:
@@ -138,28 +145,46 @@ components:
               message:
                 type: string
                 example: Unauthorized access
-  parameters:
-    Authorization:
-      name: x-api-key
-      in: header
-      required: true
-      schema:
-        type: string
-      description: API key for authentication
-      example: API_KEY
-    WebsiteId:
-      name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    BackupId:
-      name: backup_id
-      in: path
-      required: true
-      schema:
-        type: integer
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
   schemas:
+    BackupListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BackupItem'
+      example:
+        status: ok
+        data:
+        - backup_id: 25340
+          backup_size: 272243447
+          backup_time: 20240924T052401Z
+          created_at: Tue, 24 Sep 2024 05:24:42 GMT
+          type: SCHEDULED
+        - backup_id: 25553
+          backup_size: 272243447
+          backup_time: 20240925T052402Z
+          created_at: Wed, 25 Sep 2024 05:24:09 GMT
+          type: MANUAL
     StatusResponse:
       type: object
       properties:
@@ -189,28 +214,3 @@ components:
         type:
           type: string
           description: Type of the backup (e.g., SCHEDULED, MANUAL)
-    BackupListResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/BackupItem'
-      example:
-        status: ok
-        data:
-        - backup_id: 25340
-          backup_size: 272243447
-          backup_time: 20240924T052401Z
-          created_at: Tue, 24 Sep 2024 05:24:42 GMT
-          type: SCHEDULED
-        - backup_id: 25553
-          backup_size: 272243447
-          backup_time: 20240925T052402Z
-          created_at: Wed, 25 Sep 2024 05:24:09 GMT
-          type: MANUAL

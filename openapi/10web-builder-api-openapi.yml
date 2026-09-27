@@ -198,255 +198,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PublishPagesResponse:
-      type: object
-      properties:
-        msg:
-          type: string
-          description: Status message
-        status:
-          type: integer
-          description: HTTP status code
-        data:
-          type: object
-          properties:
-            message:
-              type: string
-              description: Success message
-      example:
-        msg: Success
-        status: 200
-        data:
-          message: Page is published.
-    SetFrontPageResponse:
-      type: object
-      properties:
-        msg:
-          type: string
-          description: Status message
-        status:
-          type: integer
-          description: HTTP status code
-        data:
-          type: object
-          properties:
-            message:
-              type: string
-              description: Success message
-      example:
-        msg: Success
-        status: 200
-        data:
-          message: Page is set as frontpage.
-    DeletePagesRequest:
-      type: object
-      required:
-      - page_ids
-      properties:
-        page_ids:
-          type: array
-          description: Array of page IDs to delete
-          items:
-            type: integer
-          example:
-          - 82
-    BuildSecondaryPageResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-          example: 200
-        page_id:
-          type: string
-          description: ID of the created page
-          example: '204'
-    GetPagesResponse:
-      type: object
-      properties:
-        msg:
-          type: string
-          description: Status message
-        status:
-          type: integer
-          description: HTTP status code
-        data:
-          type: array
-          description: List of pages for the website
-          items:
-            $ref: '#/components/schemas/BuilderPage'
-      example:
-        msg: Success
-        status: 200
-        data:
-        - ID: 82
-          title: example page
-          url: https://test-proxy-1.10web.club/example-page/
-          post_modified: '2025-06-24 12:10:52'
-          post_date: '2025-06-24 12:10:52'
-          twbb_created_with: twbb_blank
-          post_type: page
-          template_type: ''
-          is_edited: false
-          post_status: publish
-        - ID: 81
-          title: test page 2
-          url: https://test-proxy-1.10web.club/
-          post_modified: '2025-06-20 07:19:46'
-          post_date: '2025-06-20 07:19:46'
-          twbb_created_with: twbb_blank
-          post_type: page
-          template_type: ''
-          is_edited: false
-          post_status: publish
-          page_on_front: true
-        - ID: 80
-          title: test page
-          url: https://test-proxy-1.10web.club/test-page/
-          post_modified: '2025-06-20 07:18:44'
-          post_date: '2025-06-20 07:18:44'
-          twbb_created_with: twbb_blank
-          post_type: page
-          template_type: ''
-          is_edited: false
-          post_status: publish
-    BuilderPage:
-      type: object
-      properties:
-        ID:
-          type: integer
-          description: Page ID
-        title:
-          type: string
-          description: Page title
-        url:
-          type: string
-          description: Page URL
-        post_modified:
-          type: string
-          format: date-time
-          description: Date when the page was last modified
-        post_date:
-          type: string
-          format: date-time
-          description: Date when the page was created
-        twbb_created_with:
-          type: string
-          description: The tool used to create the page
-        post_type:
-          type: string
-          description: Type of post (e.g., page)
-        template_type:
-          type: string
-          description: Template type for the page
-        is_edited:
-          type: boolean
-          description: Whether the page has been edited
-        post_status:
-          type: string
-          description: Publication status of the page
-          enum:
-          - publish
-          - draft
-          - pending
-          - private
-        page_on_front:
-          type:
-          - boolean
-          - 'null'
-          description: Whether this page is set as the front page
-    PublishPagesRequest:
-      type: object
-      required:
-      - action
-      - page_ids
-      properties:
-        action:
-          type: string
-          description: Action to perform on the pages
-          enum:
-          - publish
-          - draft
-          - pending
-          - private
-          example: publish
-        page_ids:
-          type: array
-          description: Array of page IDs to publish
-          items:
-            type: integer
-          example:
-          - 54
-    DeletePagesResponse:
-      type: object
-      properties:
-        msg:
-          type: string
-          description: Status message
-        status:
-          type: integer
-          description: HTTP status code
-        data:
-          type: object
-          properties:
-            message:
-              type: string
-              description: Success message
-      example:
-        msg: Success
-        status: 200
-        data:
-          message: Page is deleted.
-    BuildSecondaryPageRequest:
-      type: object
-      required:
-      - page_title
-      - page_description
-      properties:
-        page_title:
-          type: string
-          description: Title for the new page
-          example: About Us
-        page_description:
-          type: string
-          description: Description of the page content to be generated
-          example: A page describing our company history and values
-        post_status:
-          type: string
-          description: Publication status of the page
-          default: draft
-          enum:
-          - draft
-          - publish
-          example: draft
-    CreateBlankPageRequest:
-      type: object
-      required:
-      - page_title
-      - post_status
-      properties:
-        page_title:
-          type: string
-          description: Title for the new page
-          example: My New Page
-        post_status:
-          type: string
-          description: Publication status for the new page
-          enum:
-          - publish
-          - draft
-          - pending
-          - private
-          example: publish
-    SetFrontPageRequest:
-      type: object
-      required:
-      - page_id
-      properties:
-        page_id:
-          type: integer
-          description: ID of the page to set as the front page
-          example: 80
     CreateBlankPageResponse:
       type: object
       properties:
@@ -496,35 +247,256 @@ components:
           template_type: ''
           is_edited: false
           post_status: publish
+    BuildSecondaryPageRequest:
+      type: object
+      required:
+      - page_title
+      - page_description
+      properties:
+        page_title:
+          type: string
+          description: Title for the new page
+          example: About Us
+        page_description:
+          type: string
+          description: Description of the page content to be generated
+          example: A page describing our company history and values
+        post_status:
+          type: string
+          description: Publication status of the page
+          default: draft
+          enum:
+          - draft
+          - publish
+          example: draft
+    BuilderPage:
+      type: object
+      properties:
+        ID:
+          type: integer
+          description: Page ID
+        title:
+          type: string
+          description: Page title
+        url:
+          type: string
+          description: Page URL
+        post_modified:
+          type: string
+          format: date-time
+          description: Date when the page was last modified
+        post_date:
+          type: string
+          format: date-time
+          description: Date when the page was created
+        twbb_created_with:
+          type: string
+          description: The tool used to create the page
+        post_type:
+          type: string
+          description: Type of post (e.g., page)
+        template_type:
+          type: string
+          description: Template type for the page
+        is_edited:
+          type: boolean
+          description: Whether the page has been edited
+        post_status:
+          type: string
+          description: Publication status of the page
+          enum:
+          - publish
+          - draft
+          - pending
+          - private
+        page_on_front:
+          type:
+          - boolean
+          - 'null'
+          description: Whether this page is set as the front page
+    SetFrontPageRequest:
+      type: object
+      required:
+      - page_id
+      properties:
+        page_id:
+          type: integer
+          description: ID of the page to set as the front page
+          example: 80
+    SetFrontPageResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Status message
+        status:
+          type: integer
+          description: HTTP status code
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Success message
+      example:
+        msg: Success
+        status: 200
+        data:
+          message: Page is set as frontpage.
+    DeletePagesResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Status message
+        status:
+          type: integer
+          description: HTTP status code
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Success message
+      example:
+        msg: Success
+        status: 200
+        data:
+          message: Page is deleted.
+    BuildSecondaryPageResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 200
+        page_id:
+          type: string
+          description: ID of the created page
+          example: '204'
+    PublishPagesRequest:
+      type: object
+      required:
+      - action
+      - page_ids
+      properties:
+        action:
+          type: string
+          description: Action to perform on the pages
+          enum:
+          - publish
+          - draft
+          - pending
+          - private
+          example: publish
+        page_ids:
+          type: array
+          description: Array of page IDs to publish
+          items:
+            type: integer
+          example:
+          - 54
+    DeletePagesRequest:
+      type: object
+      required:
+      - page_ids
+      properties:
+        page_ids:
+          type: array
+          description: Array of page IDs to delete
+          items:
+            type: integer
+          example:
+          - 82
+    CreateBlankPageRequest:
+      type: object
+      required:
+      - page_title
+      - post_status
+      properties:
+        page_title:
+          type: string
+          description: Title for the new page
+          example: My New Page
+        post_status:
+          type: string
+          description: Publication status for the new page
+          enum:
+          - publish
+          - draft
+          - pending
+          - private
+          example: publish
+    GetPagesResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Status message
+        status:
+          type: integer
+          description: HTTP status code
+        data:
+          type: array
+          description: List of pages for the website
+          items:
+            $ref: '#/components/schemas/BuilderPage'
+      example:
+        msg: Success
+        status: 200
+        data:
+        - ID: 82
+          title: example page
+          url: https://test-proxy-1.10web.club/example-page/
+          post_modified: '2025-06-24 12:10:52'
+          post_date: '2025-06-24 12:10:52'
+          twbb_created_with: twbb_blank
+          post_type: page
+          template_type: ''
+          is_edited: false
+          post_status: publish
+        - ID: 81
+          title: test page 2
+          url: https://test-proxy-1.10web.club/
+          post_modified: '2025-06-20 07:19:46'
+          post_date: '2025-06-20 07:19:46'
+          twbb_created_with: twbb_blank
+          post_type: page
+          template_type: ''
+          is_edited: false
+          post_status: publish
+          page_on_front: true
+        - ID: 80
+          title: test page
+          url: https://test-proxy-1.10web.club/test-page/
+          post_modified: '2025-06-20 07:18:44'
+          post_date: '2025-06-20 07:18:44'
+          twbb_created_with: twbb_blank
+          post_type: page
+          template_type: ''
+          is_edited: false
+          post_status: publish
+    PublishPagesResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Status message
+        status:
+          type: integer
+          description: HTTP status code
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Success message
+      example:
+        msg: Success
+        status: 200
+        data:
+          message: Page is published.
   responses:
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
     TooManyRequests:
       description: Too many requests
       content:
@@ -539,6 +511,20 @@ components:
               message:
                 type: string
                 example: Too many requests. Please try again later.
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
     Unauthorized:
       description: Unauthorized access
       content:
@@ -553,7 +539,27 @@ components:
               message:
                 type: string
                 example: Unauthorized access
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
   parameters:
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
     Authorization:
       name: x-api-key
       in: header
@@ -562,9 +568,3 @@ components:
         type: string
       description: API key for authentication
       example: API_KEY
-    WebsiteId:
-      name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer

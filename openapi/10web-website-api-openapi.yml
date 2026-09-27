@@ -729,48 +729,65 @@ paths:
       operationId: postV1HostingClone
       x-operation-id-source: derived
 components:
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
   schemas:
-    CreateWebsiteRequest:
-      type: object
-      required:
-      - subdomain
-      - region
-      - site_title
-      - admin_username
-      - admin_password
-      properties:
-        subdomain:
-          type: string
-          description: Subdomain for the website (3-63 characters, lowercase letters, numbers, and hyphens only)
-        region:
-          type: string
-          description: Region of the website
-        site_title:
-          type: string
-          description: Title of the website
-        admin_username:
-          type: string
-          description: Admin username for the website (max 60 characters, can contain alphanumeric characters, space, _, ., -, *, @)
-        admin_password:
-          type: string
-          description: Admin password for the website (must contain 1 lowercase, 1 uppercase, 1 digit, minimum 8 chars)
-        is_demo:
-          type: integer
-          enum:
-          - 0
-          - 1
-          description: Specifies if this website is a demo (0 = regular website, 1 = demo website)
-        demo_domain_delete_after_days:
-          type: integer
-          minimum: 1
-          maximum: 30
-          default: 7
-          description: Number of days after which demo website will be deleted (only applicable when is_demo = 1)
-        enable_wp_ai_generation:
-          type: boolean
-          description: Enable AI website builder functionality in WordPress admin panel
-          default: false
-    StatusResponse:
+    WebsiteResponse:
       type: object
       properties:
         status:
@@ -778,8 +795,16 @@ components:
           enum:
           - ok
           - error
+        data:
+          type: object
+          properties:
+            website_id:
+              type: integer
+              description: The ID of the created website
       example:
         status: ok
+        data:
+          website_id: 15604
     UserInfoResponse:
       type: object
       properties:
@@ -840,6 +865,56 @@ components:
             port: 22
             type: sftp
             username: SFTP_USERNAME
+    CreateWebsiteRequest:
+      type: object
+      required:
+      - subdomain
+      - region
+      - site_title
+      - admin_username
+      - admin_password
+      properties:
+        subdomain:
+          type: string
+          description: Subdomain for the website (3-63 characters, lowercase letters, numbers, and hyphens only)
+        region:
+          type: string
+          description: Region of the website
+        site_title:
+          type: string
+          description: Title of the website
+        admin_username:
+          type: string
+          description: Admin username for the website (max 60 characters, can contain alphanumeric characters, space, _, ., -, *, @)
+        admin_password:
+          type: string
+          description: Admin password for the website (must contain 1 lowercase, 1 uppercase, 1 digit, minimum 8 chars)
+        is_demo:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: Specifies if this website is a demo (0 = regular website, 1 = demo website)
+        demo_domain_delete_after_days:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 7
+          description: Number of days after which demo website will be deleted (only applicable when is_demo = 1)
+        enable_wp_ai_generation:
+          type: boolean
+          description: Enable AI website builder functionality in WordPress admin panel
+          default: false
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+      example:
+        status: ok
     InstanceInfoResponse:
       type: object
       properties:
@@ -866,82 +941,13 @@ components:
           ip: 34.172.74.94
           location: Council Bluffs, Iowa, USA
           region: us-central1-c
-    WebsiteResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-        data:
-          type: object
-          properties:
-            website_id:
-              type: integer
-              description: The ID of the created website
-      example:
-        status: ok
-        data:
-          website_id: 15604
-  responses:
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
   parameters:
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
     Authorization:
       name: x-api-key
       in: header
@@ -950,12 +956,6 @@ components:
         type: string
       description: API key for authentication
       example: API_KEY
-    WebsiteId:
-      name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer
     StagingWebsiteId:
       name: staging_website_id
       in: path

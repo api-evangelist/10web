@@ -111,34 +111,6 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
     TooManyRequests:
       description: Too many requests
       content:
@@ -153,6 +125,20 @@ components:
               message:
                 type: string
                 example: Too many requests. Please try again later.
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
     Unauthorized:
       description: Unauthorized access
       content:
@@ -167,54 +153,22 @@ components:
               message:
                 type: string
                 example: Unauthorized access
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
   schemas:
-    AddDomainNameRequest:
-      type: object
-      required:
-      - domain_name
-      properties:
-        domain_name:
-          type: string
-          description: Domain name to add (valid domain name format)
-    WebsiteDomainNameItem:
-      type: object
-      properties:
-        admin_url:
-          type: string
-          description: URL for the admin panel
-        created_at:
-          type: string
-          format: date-time
-          description: Creation date and time
-        default:
-          type: integer
-          enum:
-          - 0
-          - 1
-          description: Whether this is the default domain (1) or not (0)
-        website_id:
-          type: integer
-          description: ID of the website to which the domain name belongs
-        id:
-          type: integer
-          description: Unique identifier for the domain name
-        name:
-          type: string
-          description: The domain name
-        scheme:
-          type: string
-          enum:
-          - http
-          - https
-          description: The URL scheme used
-        site_url:
-          type: string
-          description: Full URL of the site
-        updated_at:
-          type: string
-          format: date-time
-          description: Last update date and time
-    StatusResponse:
+    AddDomainNameResponse:
       type: object
       properties:
         status:
@@ -222,8 +176,35 @@ components:
           enum:
           - ok
           - error
+        data:
+          type: object
+          properties:
+            domain_name:
+              type: string
+              description: The added domain name
+            id:
+              type: integer
+              description: The ID of the added domain name
+            message:
+              type: string
+              description: A success message
+            nameservers:
+              type: string
+              description: JSON string containing an array of nameserver addresses
+            status:
+              type: string
+              enum:
+              - ok
+              - error
+              description: Status of the operation
       example:
         status: ok
+        data:
+          domain_name: https://testdomain.com
+          id: 16461
+          message: Domain name successfully saved
+          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
+          status: ok
     WebsiteDomainNameListResponse:
       type: object
       properties:
@@ -270,7 +251,7 @@ components:
         domain_name: https://testdomain.com
         message: Domain name successfully set as default
         status: ok
-    AddDomainNameResponse:
+    StatusResponse:
       type: object
       properties:
         status:
@@ -278,35 +259,54 @@ components:
           enum:
           - ok
           - error
-        data:
-          type: object
-          properties:
-            domain_name:
-              type: string
-              description: The added domain name
-            id:
-              type: integer
-              description: The ID of the added domain name
-            message:
-              type: string
-              description: A success message
-            nameservers:
-              type: string
-              description: JSON string containing an array of nameserver addresses
-            status:
-              type: string
-              enum:
-              - ok
-              - error
-              description: Status of the operation
       example:
         status: ok
-        data:
-          domain_name: https://testdomain.com
-          id: 16461
-          message: Domain name successfully saved
-          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
-          status: ok
+    AddDomainNameRequest:
+      type: object
+      required:
+      - domain_name
+      properties:
+        domain_name:
+          type: string
+          description: Domain name to add (valid domain name format)
+    WebsiteDomainNameItem:
+      type: object
+      properties:
+        admin_url:
+          type: string
+          description: URL for the admin panel
+        created_at:
+          type: string
+          format: date-time
+          description: Creation date and time
+        default:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: Whether this is the default domain (1) or not (0)
+        website_id:
+          type: integer
+          description: ID of the website to which the domain name belongs
+        id:
+          type: integer
+          description: Unique identifier for the domain name
+        name:
+          type: string
+          description: The domain name
+        scheme:
+          type: string
+          enum:
+          - http
+          - https
+          description: The URL scheme used
+        site_url:
+          type: string
+          description: Full URL of the site
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update date and time
   parameters:
     DomainNameId:
       name: domain_name_id

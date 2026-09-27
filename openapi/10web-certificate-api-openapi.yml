@@ -164,101 +164,22 @@ paths:
       operationId: deleteV1HostingWebsitesByWebsiteIdCertificateRemove
       x-operation-id-source: derived
 components:
-  responses:
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
-  parameters:
-    Authorization:
-      name: x-api-key
-      in: header
-      required: true
-      schema:
-        type: string
-      description: API key for authentication
-      example: API_KEY
-    WebsiteId:
-      name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer
   schemas:
-    StatusResponse:
+    GenerateFreeCertificateRequest:
       type: object
+      required:
+      - domain_name_ids
       properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-      example:
-        status: ok
-    CertificateListResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-        data:
+        domain_name_ids:
           type: array
+          description: The IDs of the domain names for which to generate the certificate
           items:
-            $ref: '#/components/schemas/Certificate'
+            type: integer
+        redirect_http:
+          type: integer
+          enum:
+          - 0
+          - 1
     GenerateCustomCertificateRequest:
       type: object
       required:
@@ -280,21 +201,6 @@ components:
           - 0
           - 1
           description: Redirect HTTP to HTTPS
-    GenerateFreeCertificateRequest:
-      type: object
-      required:
-      - domain_name_ids
-      properties:
-        domain_name_ids:
-          type: array
-          description: The IDs of the domain names for which to generate the certificate
-          items:
-            type: integer
-        redirect_http:
-          type: integer
-          enum:
-          - 0
-          - 1
     RemoveCertificatesRequest:
       type: object
       required:
@@ -334,3 +240,97 @@ components:
         valid_to:
           type: string
           format: date-time
+    CertificateListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Certificate'
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+      example:
+        status: ok
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+  parameters:
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
