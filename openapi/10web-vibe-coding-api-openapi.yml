@@ -586,146 +586,70 @@ paths:
       operationId: postV1WvcGenerationConfigsDefaultWebsiteLimit
       x-operation-id-source: derived
 components:
-  responses:
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
   schemas:
-    WVCPlanDefaultsRequest:
+    WVCCustomLimitationsUpdateRequest:
       type: object
+      required:
+      - wvc_website_create_count
+      - wvc_edit_count
       properties:
-        plan_title:
-          type:
-          - string
-          - 'null'
-          description: The WVC plan name shown in the editor. Use `null` to clear this field.
-          example: WVC monthly
-        upgrade_url:
-          type:
-          - string
-          - 'null'
-          description: Custom upgrade link for the WVC editor. Overrides the WVC service default. Use `null` to clear this field.
-          example: https://example.com/upgrade
-      example:
-        plan_title: WVC monthly
-        upgrade_url: https://example.com/upgrade
-    WVCCustomLimitationsResponse:
+        wvc_website_create_count:
+          type: integer
+          description: Maximum number of WVC website creations allowed
+          example: 1
+        wvc_edit_count:
+          type: integer
+          description: Maximum number of WVC edits allowed
+          example: 1
+        reset_usage:
+          type: integer
+          enum:
+          - 0
+          - 1
+          default: 0
+          description: 'If `1`, resets `wvc_website_create_used` and `wvc_edit_used` to `0` as part of this call.
+
+            '
+          example: 1
+      examples:
+        update_limits_only:
+          summary: Update limits only
+          value:
+            wvc_website_create_count: 5
+            wvc_edit_count: 50
+        update_limits_and_reset:
+          summary: Update limits and reset counters in one call
+          value:
+            wvc_website_create_count: 5
+            wvc_edit_count: 50
+            reset_usage: 1
+    WVCAutologinRequest:
       type: object
+      required:
+      - email
       properties:
-        status:
+        email:
           type: string
-          example: SUCCESS
-        message:
-          type: string
-          example: Custom limitations retrieved successfully
-        data:
-          type: object
-          properties:
-            website_id:
-              type: integer
-              description: The unique identifier of the website
-              example: 29968
-            wvc_website_create_count:
-              type:
-              - integer
-              - 'null'
-              description: Maximum number of WVC website creations allowed. `null` means the workspace default applies.
-              example: null
-            wvc_edit_count:
-              type:
-              - integer
-              - 'null'
-              description: Maximum number of WVC edits allowed. `null` means the workspace default applies.
-              example: null
-            wvc_website_create_used:
-              type: integer
-              description: Number of WVC website creations used
-              example: 0
-            wvc_edit_used:
-              type: integer
-              description: Number of WVC edits used
-              example: 0
-      example:
-        status: SUCCESS
-        message: Custom limitations retrieved successfully
-        data:
-          website_id: 29968
-          wvc_website_create_count: null
-          wvc_edit_count: null
-          wvc_website_create_used: 0
-          wvc_edit_used: 0
-    WVCPlanDefaultsResponse:
+          format: email
+          description: Email address for WordPress admin access. If no user with this email exists, a new administrator account will be created.
+          example: user@example.com
+    WVCDefaultWebsiteLimitResponse:
       type: object
       properties:
         status:
           type: string
           enum:
-          - ok
-          example: ok
+          - success
+          example: success
+        message:
+          type: string
+          example: Successfully stored generation configs
         data:
-          type: object
-          properties:
-            defaults:
-              $ref: '#/components/schemas/WVCPlanDefaultsData'
+          example: null
       example:
-        status: ok
-        data:
-          defaults:
-            plan_title: WVC monthly
-            upgrade_url: https://example.com/upgrade
+        status: success
+        message: Successfully stored generation configs
+        data: null
     WVCCombinedCreateRequest:
       type: object
       required:
@@ -771,6 +695,136 @@ components:
           type: string
           description: Description of what the website should include, used by the WVC service to generate content.
           example: A modern agency website with a dark theme and bold typography
+    WVCAutologinResponse:
+      type: object
+      properties:
+        autologin_url:
+          type: string
+          description: Single-use URL that logs the user into WordPress and opens the WVC editor. Valid for 5 minutes.
+          example: https://my-site.10web.club/wp-admin/admin.php?twb_wp_login_token=abc123&without_onboarding=true&page=wvc-editor&email=user%40example.com
+      example:
+        autologin_url: https://my-site.10web.club/wp-admin/admin.php?twb_wp_login_token=abc123&without_onboarding=true&page=wvc-editor&email=user%40example.com
+    WVCCreateRequest:
+      type: object
+      required:
+      - email
+      - user_prompt
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email address for website admin access
+          example: test@example.com
+        user_prompt:
+          type: string
+          description: User's description of what the website should include
+          example: Create a modern tech company website
+    WVCCreateResponse:
+      type: object
+      properties:
+        autologin_url:
+          type: string
+          description: URL for automatic login to the WordPress admin panel with WVC editor access
+          example: https://splendid-boar.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=0WbKbFfxuTcSX0NmbTebcNkE5iUgJMvi7kSHtSBw7GXLH7djsIRnND46VmLdPkPN5kAcNXAkzsDti3toJFOSXBfQRGbhvXtsKcgvdlxpEgtYRY4z8ppAXz331knF6NFfvLL9WZSy7RDzDtFVmV8TpT&email=test%40example.com
+      example:
+        autologin_url: https://splendid-boar.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=0WbKbFfxuTcSX0NmbTebcNkE5iUgJMvi7kSHtSBw7GXLH7djsIRnND46VmLdPkPN5kAcNXAkzsDti3toJFOSXBfQRGbhvXtsKcgvdlxpEgtYRY4z8ppAXz331knF6NFfvLL9WZSy7RDzDtFVmV8TpT&email=test%40example.com
+    WVCPlanDefaultsRequest:
+      type: object
+      properties:
+        plan_title:
+          type:
+          - string
+          - 'null'
+          description: The WVC plan name shown in the editor. Use `null` to clear this field.
+          example: WVC monthly
+        upgrade_url:
+          type:
+          - string
+          - 'null'
+          description: Custom upgrade link for the WVC editor. Overrides the WVC service default. Use `null` to clear this field.
+          example: https://example.com/upgrade
+      example:
+        plan_title: WVC monthly
+        upgrade_url: https://example.com/upgrade
+    WVCDefaultWebsiteLimitRequest:
+      type: object
+      required:
+      - default_website_generation_limit
+      - default_website_edit_limit
+      properties:
+        default_website_generation_limit:
+          type: integer
+          description: Default maximum number of WVC website creations allowed per workspace
+          example: 3
+        default_website_edit_limit:
+          type: integer
+          description: Default maximum number of WVC edits allowed per workspace
+          example: 10
+      example:
+        default_website_generation_limit: 3
+        default_website_edit_limit: 10
+    WVCCombinedCreateResponse:
+      type: object
+      properties:
+        website_id:
+          type: integer
+          description: ID of the newly created website.
+          example: 12345
+        autologin_url:
+          type: string
+          description: Single-use URL that logs the user into WordPress and opens the WVC editor. Valid for a limited time.
+          example: https://my-site.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=abc123&email=user%40example.com
+        data:
+          type: object
+          description: Raw response from the WVC service, present when the WVC service responded within the 10-second timeout window.
+      example:
+        website_id: 12345
+        autologin_url: https://my-site.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=abc123&email=user%40example.com
+    WVCCustomLimitationsResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: SUCCESS
+        message:
+          type: string
+          example: Custom limitations retrieved successfully
+        data:
+          type: object
+          properties:
+            website_id:
+              type: integer
+              description: The unique identifier of the website
+              example: 29968
+            wvc_website_create_count:
+              type:
+              - integer
+              - 'null'
+              description: Maximum number of WVC website creations allowed. `null` means the workspace default applies.
+              example: null
+            wvc_edit_count:
+              type:
+              - integer
+              - 'null'
+              description: Maximum number of WVC edits allowed. `null` means the workspace default applies.
+              example: null
+            wvc_website_create_used:
+              type: integer
+              description: Number of WVC website creations used
+              example: 0
+            wvc_edit_used:
+              type: integer
+              description: Number of WVC edits used
+              example: 0
+      example:
+        status: SUCCESS
+        message: Custom limitations retrieved successfully
+        data:
+          website_id: 29968
+          wvc_website_create_count: null
+          wvc_edit_count: null
+          wvc_website_create_used: 0
+          wvc_edit_used: 0
     WVCResetUsageResponse:
       type: object
       properties:
@@ -793,6 +847,25 @@ components:
         status: success
         message: Website usage reset successfully
         website_id: 29968
+    WVCPlanDefaultsResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          example: ok
+        data:
+          type: object
+          properties:
+            defaults:
+              $ref: '#/components/schemas/WVCPlanDefaultsData'
+      example:
+        status: ok
+        data:
+          defaults:
+            plan_title: WVC monthly
+            upgrade_url: https://example.com/upgrade
     WVCPlanDefaultsData:
       type: object
       properties:
@@ -804,137 +877,13 @@ components:
           type: string
           description: Custom upgrade link for the WVC editor. Overrides the WVC service default.
           example: https://example.com/upgrade
-    WVCCreateResponse:
-      type: object
-      properties:
-        autologin_url:
-          type: string
-          description: URL for automatic login to the WordPress admin panel with WVC editor access
-          example: https://splendid-boar.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=0WbKbFfxuTcSX0NmbTebcNkE5iUgJMvi7kSHtSBw7GXLH7djsIRnND46VmLdPkPN5kAcNXAkzsDti3toJFOSXBfQRGbhvXtsKcgvdlxpEgtYRY4z8ppAXz331knF6NFfvLL9WZSy7RDzDtFVmV8TpT&email=test%40example.com
-      example:
-        autologin_url: https://splendid-boar.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=0WbKbFfxuTcSX0NmbTebcNkE5iUgJMvi7kSHtSBw7GXLH7djsIRnND46VmLdPkPN5kAcNXAkzsDti3toJFOSXBfQRGbhvXtsKcgvdlxpEgtYRY4z8ppAXz331knF6NFfvLL9WZSy7RDzDtFVmV8TpT&email=test%40example.com
-    WVCAutologinRequest:
-      type: object
-      required:
-      - email
-      properties:
-        email:
-          type: string
-          format: email
-          description: Email address for WordPress admin access. If no user with this email exists, a new administrator account will be created.
-          example: user@example.com
-    WVCAutologinResponse:
-      type: object
-      properties:
-        autologin_url:
-          type: string
-          description: Single-use URL that logs the user into WordPress and opens the WVC editor. Valid for 5 minutes.
-          example: https://my-site.10web.club/wp-admin/admin.php?twb_wp_login_token=abc123&without_onboarding=true&page=wvc-editor&email=user%40example.com
-      example:
-        autologin_url: https://my-site.10web.club/wp-admin/admin.php?twb_wp_login_token=abc123&without_onboarding=true&page=wvc-editor&email=user%40example.com
-    WVCCombinedCreateResponse:
-      type: object
-      properties:
-        website_id:
-          type: integer
-          description: ID of the newly created website.
-          example: 12345
-        autologin_url:
-          type: string
-          description: Single-use URL that logs the user into WordPress and opens the WVC editor. Valid for a limited time.
-          example: https://my-site.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=abc123&email=user%40example.com
-        data:
-          type: object
-          description: Raw response from the WVC service, present when the WVC service responded within the 10-second timeout window.
-      example:
-        website_id: 12345
-        autologin_url: https://my-site.10web.club/wp-admin/admin.php?page=wvc-editor&twb_wp_login_token=abc123&email=user%40example.com
-    WVCCustomLimitationsUpdateRequest:
-      type: object
-      required:
-      - wvc_website_create_count
-      - wvc_edit_count
-      properties:
-        wvc_website_create_count:
-          type: integer
-          description: Maximum number of WVC website creations allowed
-          example: 1
-        wvc_edit_count:
-          type: integer
-          description: Maximum number of WVC edits allowed
-          example: 1
-        reset_usage:
-          type: integer
-          enum:
-          - 0
-          - 1
-          default: 0
-          description: 'If `1`, resets `wvc_website_create_used` and `wvc_edit_used` to `0` as part of this call.
-
-            '
-          example: 1
-      examples:
-        update_limits_only:
-          summary: Update limits only
-          value:
-            wvc_website_create_count: 5
-            wvc_edit_count: 50
-        update_limits_and_reset:
-          summary: Update limits and reset counters in one call
-          value:
-            wvc_website_create_count: 5
-            wvc_edit_count: 50
-            reset_usage: 1
-    WVCCreateRequest:
-      type: object
-      required:
-      - email
-      - user_prompt
-      properties:
-        email:
-          type: string
-          format: email
-          description: Email address for website admin access
-          example: test@example.com
-        user_prompt:
-          type: string
-          description: User's description of what the website should include
-          example: Create a modern tech company website
-    WVCDefaultWebsiteLimitRequest:
-      type: object
-      required:
-      - default_website_generation_limit
-      - default_website_edit_limit
-      properties:
-        default_website_generation_limit:
-          type: integer
-          description: Default maximum number of WVC website creations allowed per workspace
-          example: 3
-        default_website_edit_limit:
-          type: integer
-          description: Default maximum number of WVC edits allowed per workspace
-          example: 10
-      example:
-        default_website_generation_limit: 3
-        default_website_edit_limit: 10
-    WVCDefaultWebsiteLimitResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-          example: success
-        message:
-          type: string
-          example: Successfully stored generation configs
-        data:
-          example: null
-      example:
-        status: success
-        message: Successfully stored generation configs
-        data: null
   parameters:
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
     Authorization:
       name: x-api-key
       in: header
@@ -943,9 +892,60 @@ components:
         type: string
       description: API key for authentication
       example: API_KEY
-    WebsiteId:
-      name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access

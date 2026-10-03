@@ -81,85 +81,26 @@ paths:
       operationId: postV1HostingWebsitesByWebsiteIdBackupByBackupIdRestore
       x-operation-id-source: derived
 components:
-  parameters:
-    BackupId:
-      name: backup_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    WebsiteId:
-      name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    Authorization:
-      name: x-api-key
-      in: header
-      required: true
-      schema:
-        type: string
-      description: API key for authentication
-      example: API_KEY
-  responses:
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
   schemas:
+    BackupItem:
+      type: object
+      properties:
+        backup_id:
+          type: integer
+          description: Unique identifier for the backup
+        backup_size:
+          type: integer
+          description: Size of the backup in bytes
+        backup_time:
+          type: string
+          description: Time when the backup was created (in format YYYYMMDDTHHmmssZ)
+        created_at:
+          type: string
+          format: date-time
+          description: Human-readable creation time of the backup
+        type:
+          type: string
+          description: Type of the backup (e.g., SCHEDULED, MANUAL)
     BackupListResponse:
       type: object
       properties:
@@ -195,22 +136,81 @@ components:
           - error
       example:
         status: ok
-    BackupItem:
-      type: object
-      properties:
-        backup_id:
-          type: integer
-          description: Unique identifier for the backup
-        backup_size:
-          type: integer
-          description: Size of the backup in bytes
-        backup_time:
-          type: string
-          description: Time when the backup was created (in format YYYYMMDDTHHmmssZ)
-        created_at:
-          type: string
-          format: date-time
-          description: Human-readable creation time of the backup
-        type:
-          type: string
-          description: Type of the backup (e.g., SCHEDULED, MANUAL)
+  parameters:
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    BackupId:
+      name: backup_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access

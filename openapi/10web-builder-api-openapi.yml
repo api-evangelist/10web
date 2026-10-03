@@ -198,6 +198,46 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    DeletePagesResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Status message
+        status:
+          type: integer
+          description: HTTP status code
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Success message
+      example:
+        msg: Success
+        status: 200
+        data:
+          message: Page is deleted.
+    SetFrontPageResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Status message
+        status:
+          type: integer
+          description: HTTP status code
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Success message
+      example:
+        msg: Success
+        status: 200
+        data:
+          message: Page is set as frontpage.
     CreateBlankPageResponse:
       type: object
       properties:
@@ -247,133 +287,25 @@ components:
           template_type: ''
           is_edited: false
           post_status: publish
-    BuildSecondaryPageRequest:
+    CreateBlankPageRequest:
       type: object
       required:
       - page_title
-      - page_description
+      - post_status
       properties:
         page_title:
           type: string
           description: Title for the new page
-          example: About Us
-        page_description:
-          type: string
-          description: Description of the page content to be generated
-          example: A page describing our company history and values
+          example: My New Page
         post_status:
           type: string
-          description: Publication status of the page
-          default: draft
-          enum:
-          - draft
-          - publish
-          example: draft
-    BuilderPage:
-      type: object
-      properties:
-        ID:
-          type: integer
-          description: Page ID
-        title:
-          type: string
-          description: Page title
-        url:
-          type: string
-          description: Page URL
-        post_modified:
-          type: string
-          format: date-time
-          description: Date when the page was last modified
-        post_date:
-          type: string
-          format: date-time
-          description: Date when the page was created
-        twbb_created_with:
-          type: string
-          description: The tool used to create the page
-        post_type:
-          type: string
-          description: Type of post (e.g., page)
-        template_type:
-          type: string
-          description: Template type for the page
-        is_edited:
-          type: boolean
-          description: Whether the page has been edited
-        post_status:
-          type: string
-          description: Publication status of the page
+          description: Publication status for the new page
           enum:
           - publish
           - draft
           - pending
           - private
-        page_on_front:
-          type:
-          - boolean
-          - 'null'
-          description: Whether this page is set as the front page
-    SetFrontPageRequest:
-      type: object
-      required:
-      - page_id
-      properties:
-        page_id:
-          type: integer
-          description: ID of the page to set as the front page
-          example: 80
-    SetFrontPageResponse:
-      type: object
-      properties:
-        msg:
-          type: string
-          description: Status message
-        status:
-          type: integer
-          description: HTTP status code
-        data:
-          type: object
-          properties:
-            message:
-              type: string
-              description: Success message
-      example:
-        msg: Success
-        status: 200
-        data:
-          message: Page is set as frontpage.
-    DeletePagesResponse:
-      type: object
-      properties:
-        msg:
-          type: string
-          description: Status message
-        status:
-          type: integer
-          description: HTTP status code
-        data:
-          type: object
-          properties:
-            message:
-              type: string
-              description: Success message
-      example:
-        msg: Success
-        status: 200
-        data:
-          message: Page is deleted.
-    BuildSecondaryPageResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-          example: 200
-        page_id:
-          type: string
-          description: ID of the created page
-          example: '204'
+          example: publish
     PublishPagesRequest:
       type: object
       required:
@@ -396,37 +328,6 @@ components:
             type: integer
           example:
           - 54
-    DeletePagesRequest:
-      type: object
-      required:
-      - page_ids
-      properties:
-        page_ids:
-          type: array
-          description: Array of page IDs to delete
-          items:
-            type: integer
-          example:
-          - 82
-    CreateBlankPageRequest:
-      type: object
-      required:
-      - page_title
-      - post_status
-      properties:
-        page_title:
-          type: string
-          description: Title for the new page
-          example: My New Page
-        post_status:
-          type: string
-          description: Publication status for the new page
-          enum:
-          - publish
-          - draft
-          - pending
-          - private
-          example: publish
     GetPagesResponse:
       type: object
       properties:
@@ -476,6 +377,60 @@ components:
           template_type: ''
           is_edited: false
           post_status: publish
+    BuildSecondaryPageResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 200
+        page_id:
+          type: string
+          description: ID of the created page
+          example: '204'
+    DeletePagesRequest:
+      type: object
+      required:
+      - page_ids
+      properties:
+        page_ids:
+          type: array
+          description: Array of page IDs to delete
+          items:
+            type: integer
+          example:
+          - 82
+    SetFrontPageRequest:
+      type: object
+      required:
+      - page_id
+      properties:
+        page_id:
+          type: integer
+          description: ID of the page to set as the front page
+          example: 80
+    BuildSecondaryPageRequest:
+      type: object
+      required:
+      - page_title
+      - page_description
+      properties:
+        page_title:
+          type: string
+          description: Title for the new page
+          example: About Us
+        page_description:
+          type: string
+          description: Description of the page content to be generated
+          example: A page describing our company history and values
+        post_status:
+          type: string
+          description: Publication status of the page
+          default: draft
+          enum:
+          - draft
+          - publish
+          example: draft
     PublishPagesResponse:
       type: object
       properties:
@@ -496,6 +451,51 @@ components:
         status: 200
         data:
           message: Page is published.
+    BuilderPage:
+      type: object
+      properties:
+        ID:
+          type: integer
+          description: Page ID
+        title:
+          type: string
+          description: Page title
+        url:
+          type: string
+          description: Page URL
+        post_modified:
+          type: string
+          format: date-time
+          description: Date when the page was last modified
+        post_date:
+          type: string
+          format: date-time
+          description: Date when the page was created
+        twbb_created_with:
+          type: string
+          description: The tool used to create the page
+        post_type:
+          type: string
+          description: Type of post (e.g., page)
+        template_type:
+          type: string
+          description: Template type for the page
+        is_edited:
+          type: boolean
+          description: Whether the page has been edited
+        post_status:
+          type: string
+          description: Publication status of the page
+          enum:
+          - publish
+          - draft
+          - pending
+          - private
+        page_on_front:
+          type:
+          - boolean
+          - 'null'
+          description: Whether this page is set as the front page
   responses:
     TooManyRequests:
       description: Too many requests
@@ -511,6 +511,20 @@ components:
               message:
                 type: string
                 example: Too many requests. Please try again later.
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
     BadRequest:
       description: Bad request
       content:
@@ -539,20 +553,6 @@ components:
               message:
                 type: string
                 example: Unauthorized access
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
   parameters:
     WebsiteId:
       name: website_id

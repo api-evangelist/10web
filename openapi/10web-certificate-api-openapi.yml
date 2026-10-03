@@ -164,53 +164,79 @@ paths:
       operationId: deleteV1HostingWebsitesByWebsiteIdCertificateRemove
       x-operation-id-source: derived
 components:
+  parameters:
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
   schemas:
-    GenerateFreeCertificateRequest:
-      type: object
-      required:
-      - domain_name_ids
-      properties:
-        domain_name_ids:
-          type: array
-          description: The IDs of the domain names for which to generate the certificate
-          items:
-            type: integer
-        redirect_http:
-          type: integer
-          enum:
-          - 0
-          - 1
-    GenerateCustomCertificateRequest:
-      type: object
-      required:
-      - key_file_content
-      - cert_file_content
-      properties:
-        key_file_content:
-          type: string
-          description: The content of the key file
-        cert_file_content:
-          type: string
-          description: The content of the certificate file, recommended to append the ca file content after it
-        ca_file_content:
-          type: string
-          description: The content of the ca file
-        redirect_http:
-          type: integer
-          enum:
-          - 0
-          - 1
-          description: Redirect HTTP to HTTPS
-    RemoveCertificatesRequest:
-      type: object
-      required:
-      - domain_name_ids
-      properties:
-        domain_name_ids:
-          type: array
-          description: The IDs of the domain names for which to remove the certificates
-          items:
-            type: integer
     Certificate:
       type: object
       properties:
@@ -240,6 +266,21 @@ components:
         valid_to:
           type: string
           format: date-time
+    GenerateFreeCertificateRequest:
+      type: object
+      required:
+      - domain_name_ids
+      properties:
+        domain_name_ids:
+          type: array
+          description: The IDs of the domain names for which to generate the certificate
+          items:
+            type: integer
+        redirect_http:
+          type: integer
+          enum:
+          - 0
+          - 1
     CertificateListResponse:
       type: object
       properties:
@@ -252,6 +293,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Certificate'
+    RemoveCertificatesRequest:
+      type: object
+      required:
+      - domain_name_ids
+      properties:
+        domain_name_ids:
+          type: array
+          description: The IDs of the domain names for which to remove the certificates
+          items:
+            type: integer
     StatusResponse:
       type: object
       properties:
@@ -262,75 +313,24 @@ components:
           - error
       example:
         status: ok
-  responses:
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
-  parameters:
-    WebsiteId:
-      name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    Authorization:
-      name: x-api-key
-      in: header
-      required: true
-      schema:
-        type: string
-      description: API key for authentication
-      example: API_KEY
+    GenerateCustomCertificateRequest:
+      type: object
+      required:
+      - key_file_content
+      - cert_file_content
+      properties:
+        key_file_content:
+          type: string
+          description: The content of the key file
+        cert_file_content:
+          type: string
+          description: The content of the certificate file, recommended to append the ca file content after it
+        ca_file_content:
+          type: string
+          description: The content of the ca file
+        redirect_http:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: Redirect HTTP to HTTPS

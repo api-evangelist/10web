@@ -107,6 +107,20 @@ components:
               message:
                 type: string
                 example: Too many requests. Please try again later.
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
     BadRequest:
       description: Bad request
       content:
@@ -135,20 +149,6 @@ components:
               message:
                 type: string
                 example: Unauthorized access
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
   parameters:
     Authorization:
       name: x-api-key
