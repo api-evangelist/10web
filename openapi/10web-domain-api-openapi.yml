@@ -111,14 +111,14 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    DomainNameId:
-      name: domain_name_id
+    WebsiteId:
+      name: website_id
       in: path
       required: true
       schema:
         type: integer
-    WebsiteId:
-      name: website_id
+    DomainNameId:
+      name: domain_name_id
       in: path
       required: true
       schema:
@@ -132,63 +132,6 @@ components:
       description: API key for authentication
       example: API_KEY
   schemas:
-    SetDefaultDomainNameResponse:
-      type: object
-      properties:
-        domain_name:
-          type: string
-          description: The domain name set as default
-        message:
-          type: string
-          description: A success message
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-          description: Status of the operation
-      example:
-        domain_name: https://testdomain.com
-        message: Domain name successfully set as default
-        status: ok
-    WebsiteDomainNameItem:
-      type: object
-      properties:
-        admin_url:
-          type: string
-          description: URL for the admin panel
-        created_at:
-          type: string
-          format: date-time
-          description: Creation date and time
-        default:
-          type: integer
-          enum:
-          - 0
-          - 1
-          description: Whether this is the default domain (1) or not (0)
-        website_id:
-          type: integer
-          description: ID of the website to which the domain name belongs
-        id:
-          type: integer
-          description: Unique identifier for the domain name
-        name:
-          type: string
-          description: The domain name
-        scheme:
-          type: string
-          enum:
-          - http
-          - https
-          description: The URL scheme used
-        site_url:
-          type: string
-          description: Full URL of the site
-        updated_at:
-          type: string
-          format: date-time
-          description: Last update date and time
     AddDomainNameResponse:
       type: object
       properties:
@@ -234,6 +177,44 @@ components:
         domain_name:
           type: string
           description: Domain name to add (valid domain name format)
+    WebsiteDomainNameItem:
+      type: object
+      properties:
+        admin_url:
+          type: string
+          description: URL for the admin panel
+        created_at:
+          type: string
+          format: date-time
+          description: Creation date and time
+        default:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: Whether this is the default domain (1) or not (0)
+        website_id:
+          type: integer
+          description: ID of the website to which the domain name belongs
+        id:
+          type: integer
+          description: Unique identifier for the domain name
+        name:
+          type: string
+          description: The domain name
+        scheme:
+          type: string
+          enum:
+          - http
+          - https
+          description: The URL scheme used
+        site_url:
+          type: string
+          description: Full URL of the site
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update date and time
     WebsiteDomainNameListResponse:
       type: object
       properties:
@@ -271,6 +252,25 @@ components:
           - error
       example:
         status: ok
+    SetDefaultDomainNameResponse:
+      type: object
+      properties:
+        domain_name:
+          type: string
+          description: The domain name set as default
+        message:
+          type: string
+          description: A success message
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+          description: Status of the operation
+      example:
+        domain_name: https://testdomain.com
+        message: Domain name successfully set as default
+        status: ok
   responses:
     TooManyRequests:
       description: Too many requests
@@ -300,20 +300,6 @@ components:
               message:
                 type: string
                 example: Something went wrong
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
     Unauthorized:
       description: Unauthorized access
       content:
@@ -328,3 +314,17 @@ components:
               message:
                 type: string
                 example: Unauthorized access
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters

@@ -92,55 +92,6 @@ components:
         type: string
       description: API key for authentication
       example: API_KEY
-  schemas:
-    AccountWebsite:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        site_url:
-          type: string
-        admin_url:
-          type: string
-        site_title:
-          type: string
-        website_hash:
-          type: string
-        type:
-          type: string
-        created_at:
-          type: string
-        updated_at:
-          type: string
-      example:
-        id: 15354
-        name: testdomain.com
-        site_url: https://testdomain.com
-        admin_url: https://testdomain.com/wp-admin/
-        site_title: My Website
-        website_hash: WEBSITE_HASH_STRING
-        type: live
-        created_at: '2024-09-23 07:08:47'
-        updated_at: '2024-10-10 11:22:25'
-    StatusResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-      example:
-        status: ok
-    AccountWebsitesResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountWebsite'
   responses:
     TooManyRequests:
       description: Too many requests
@@ -184,3 +135,52 @@ components:
               message:
                 type: string
                 example: Unauthorized access
+  schemas:
+    AccountWebsite:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        site_url:
+          type: string
+        admin_url:
+          type: string
+        site_title:
+          type: string
+        website_hash:
+          type: string
+        type:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      example:
+        id: 15354
+        name: testdomain.com
+        site_url: https://testdomain.com
+        admin_url: https://testdomain.com/wp-admin/
+        site_title: My Website
+        website_hash: WEBSITE_HASH_STRING
+        type: live
+        created_at: '2024-09-23 07:08:47'
+        updated_at: '2024-10-10 11:22:25'
+    AccountWebsitesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountWebsite'
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+      example:
+        status: ok

@@ -729,7 +729,68 @@ paths:
       operationId: postV1HostingClone
       x-operation-id-source: derived
 components:
+  parameters:
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
+    StagingWebsiteId:
+      name: staging_website_id
+      in: path
+      required: true
+      schema:
+        type: integer
   schemas:
+    CreateWebsiteRequest:
+      type: object
+      required:
+      - subdomain
+      - region
+      - site_title
+      - admin_username
+      - admin_password
+      properties:
+        subdomain:
+          type: string
+          description: Subdomain for the website (3-63 characters, lowercase letters, numbers, and hyphens only)
+        region:
+          type: string
+          description: Region of the website
+        site_title:
+          type: string
+          description: Title of the website
+        admin_username:
+          type: string
+          description: Admin username for the website (max 60 characters, can contain alphanumeric characters, space, _, ., -, *, @)
+        admin_password:
+          type: string
+          description: Admin password for the website (must contain 1 lowercase, 1 uppercase, 1 digit, minimum 8 chars)
+        is_demo:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: Specifies if this website is a demo (0 = regular website, 1 = demo website)
+        demo_domain_delete_after_days:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 7
+          description: Number of days after which demo website will be deleted (only applicable when is_demo = 1)
+        enable_wp_ai_generation:
+          type: boolean
+          description: Enable AI website builder functionality in WordPress admin panel
+          default: false
     WebsiteResponse:
       type: object
       properties:
@@ -774,46 +835,6 @@ components:
           ip: 34.172.74.94
           location: Council Bluffs, Iowa, USA
           region: us-central1-c
-    CreateWebsiteRequest:
-      type: object
-      required:
-      - subdomain
-      - region
-      - site_title
-      - admin_username
-      - admin_password
-      properties:
-        subdomain:
-          type: string
-          description: Subdomain for the website (3-63 characters, lowercase letters, numbers, and hyphens only)
-        region:
-          type: string
-          description: Region of the website
-        site_title:
-          type: string
-          description: Title of the website
-        admin_username:
-          type: string
-          description: Admin username for the website (max 60 characters, can contain alphanumeric characters, space, _, ., -, *, @)
-        admin_password:
-          type: string
-          description: Admin password for the website (must contain 1 lowercase, 1 uppercase, 1 digit, minimum 8 chars)
-        is_demo:
-          type: integer
-          enum:
-          - 0
-          - 1
-          description: Specifies if this website is a demo (0 = regular website, 1 = demo website)
-        demo_domain_delete_after_days:
-          type: integer
-          minimum: 1
-          maximum: 30
-          default: 7
-          description: Number of days after which demo website will be deleted (only applicable when is_demo = 1)
-        enable_wp_ai_generation:
-          type: boolean
-          description: Enable AI website builder functionality in WordPress admin panel
-          default: false
     UserInfoResponse:
       type: object
       properties:
@@ -884,27 +905,6 @@ components:
           - error
       example:
         status: ok
-  parameters:
-    StagingWebsiteId:
-      name: staging_website_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    WebsiteId:
-      name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    Authorization:
-      name: x-api-key
-      in: header
-      required: true
-      schema:
-        type: string
-      description: API key for authentication
-      example: API_KEY
   responses:
     TooManyRequests:
       description: Too many requests
@@ -934,20 +934,6 @@ components:
               message:
                 type: string
                 example: Something went wrong
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
     Unauthorized:
       description: Unauthorized access
       content:
@@ -962,3 +948,17 @@ components:
               message:
                 type: string
                 example: Unauthorized access
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters

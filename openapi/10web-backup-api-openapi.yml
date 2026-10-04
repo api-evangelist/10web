@@ -81,70 +81,9 @@ paths:
       operationId: postV1HostingWebsitesByWebsiteIdBackupByBackupIdRestore
       x-operation-id-source: derived
 components:
-  schemas:
-    BackupItem:
-      type: object
-      properties:
-        backup_id:
-          type: integer
-          description: Unique identifier for the backup
-        backup_size:
-          type: integer
-          description: Size of the backup in bytes
-        backup_time:
-          type: string
-          description: Time when the backup was created (in format YYYYMMDDTHHmmssZ)
-        created_at:
-          type: string
-          format: date-time
-          description: Human-readable creation time of the backup
-        type:
-          type: string
-          description: Type of the backup (e.g., SCHEDULED, MANUAL)
-    BackupListResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/BackupItem'
-      example:
-        status: ok
-        data:
-        - backup_id: 25340
-          backup_size: 272243447
-          backup_time: 20240924T052401Z
-          created_at: Tue, 24 Sep 2024 05:24:42 GMT
-          type: SCHEDULED
-        - backup_id: 25553
-          backup_size: 272243447
-          backup_time: 20240925T052402Z
-          created_at: Wed, 25 Sep 2024 05:24:09 GMT
-          type: MANUAL
-    StatusResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-      example:
-        status: ok
   parameters:
     WebsiteId:
       name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    BackupId:
-      name: backup_id
       in: path
       required: true
       schema:
@@ -157,6 +96,12 @@ components:
         type: string
       description: API key for authentication
       example: API_KEY
+    BackupId:
+      name: backup_id
+      in: path
+      required: true
+      schema:
+        type: integer
   responses:
     TooManyRequests:
       description: Too many requests
@@ -186,20 +131,6 @@ components:
               message:
                 type: string
                 example: Something went wrong
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
     Unauthorized:
       description: Unauthorized access
       content:
@@ -214,3 +145,72 @@ components:
               message:
                 type: string
                 example: Unauthorized access
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+  schemas:
+    BackupListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BackupItem'
+      example:
+        status: ok
+        data:
+        - backup_id: 25340
+          backup_size: 272243447
+          backup_time: 20240924T052401Z
+          created_at: Tue, 24 Sep 2024 05:24:42 GMT
+          type: SCHEDULED
+        - backup_id: 25553
+          backup_size: 272243447
+          backup_time: 20240925T052402Z
+          created_at: Wed, 25 Sep 2024 05:24:09 GMT
+          type: MANUAL
+    BackupItem:
+      type: object
+      properties:
+        backup_id:
+          type: integer
+          description: Unique identifier for the backup
+        backup_size:
+          type: integer
+          description: Size of the backup in bytes
+        backup_time:
+          type: string
+          description: Time when the backup was created (in format YYYYMMDDTHHmmssZ)
+        created_at:
+          type: string
+          format: date-time
+          description: Human-readable creation time of the backup
+        type:
+          type: string
+          description: Type of the backup (e.g., SCHEDULED, MANUAL)
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+      example:
+        status: ok

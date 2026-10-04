@@ -208,20 +208,6 @@ components:
               message:
                 type: string
                 example: Something went wrong
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
     Unauthorized:
       description: Unauthorized access
       content:
@@ -236,7 +222,33 @@ components:
               message:
                 type: string
                 example: Unauthorized access
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
   schemas:
+    CertificateListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Certificate'
     Certificate:
       type: object
       properties:
@@ -266,53 +278,6 @@ components:
         valid_to:
           type: string
           format: date-time
-    GenerateFreeCertificateRequest:
-      type: object
-      required:
-      - domain_name_ids
-      properties:
-        domain_name_ids:
-          type: array
-          description: The IDs of the domain names for which to generate the certificate
-          items:
-            type: integer
-        redirect_http:
-          type: integer
-          enum:
-          - 0
-          - 1
-    CertificateListResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Certificate'
-    RemoveCertificatesRequest:
-      type: object
-      required:
-      - domain_name_ids
-      properties:
-        domain_name_ids:
-          type: array
-          description: The IDs of the domain names for which to remove the certificates
-          items:
-            type: integer
-    StatusResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-      example:
-        status: ok
     GenerateCustomCertificateRequest:
       type: object
       required:
@@ -334,3 +299,38 @@ components:
           - 0
           - 1
           description: Redirect HTTP to HTTPS
+    GenerateFreeCertificateRequest:
+      type: object
+      required:
+      - domain_name_ids
+      properties:
+        domain_name_ids:
+          type: array
+          description: The IDs of the domain names for which to generate the certificate
+          items:
+            type: integer
+        redirect_http:
+          type: integer
+          enum:
+          - 0
+          - 1
+    RemoveCertificatesRequest:
+      type: object
+      required:
+      - domain_name_ids
+      properties:
+        domain_name_ids:
+          type: array
+          description: The IDs of the domain names for which to remove the certificates
+          items:
+            type: integer
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+      example:
+        status: ok

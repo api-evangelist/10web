@@ -466,20 +466,6 @@ components:
               message:
                 type: string
                 example: Something went wrong
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
     Unauthorized:
       description: Unauthorized access
       content:
@@ -494,35 +480,21 @@ components:
               message:
                 type: string
                 example: Unauthorized access
-  parameters:
-    Authorization:
-      name: x-api-key
-      in: header
-      required: true
-      schema:
-        type: string
-      description: API key for authentication
-      example: API_KEY
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
   schemas:
-    AIWebsiteResponse:
-      type: object
-      properties:
-        website_id:
-          type: integer
-          description: The ID of the created website
-        website_url:
-          type:
-          - string
-          - 'null'
-          description: The URL of the website with generated AI content
-        error:
-          type:
-          - string
-          - 'null'
-          description: Error message if AI generation failed (website still created successfully)
-      example:
-        website_id: 21113
-        website_url: https://my-agency-site.10web.club
     CreateAIWebsiteRequest:
       type: object
       required:
@@ -580,3 +552,31 @@ components:
           type: string
           description: Description of the business for AI content generation
           example: We provide comprehensive digital marketing solutions and web development services
+    AIWebsiteResponse:
+      type: object
+      properties:
+        website_id:
+          type: integer
+          description: The ID of the created website
+        website_url:
+          type:
+          - string
+          - 'null'
+          description: The URL of the website with generated AI content
+        error:
+          type:
+          - string
+          - 'null'
+          description: Error message if AI generation failed (website still created successfully)
+      example:
+        website_id: 21113
+        website_url: https://my-agency-site.10web.club
+  parameters:
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY

@@ -215,98 +215,85 @@ paths:
       operationId: postV1HostingZoneByZoneIdRecordsByRecordId
       x-operation-id-source: derived
 components:
+  responses:
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+  parameters:
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
+    RecordId:
+      name: record_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    ZoneId:
+      name: zone_id
+      in: path
+      required: true
+      schema:
+        type: integer
   schemas:
-    AvailableZonesResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AvailableZone'
-      example:
-        status: ok
-        data:
-        - is_available: 1
-          location: Council Bluffs, Iowa, USA
-          region: us-central1
-          zone: us-central1-c
-        - is_available: 1
-          location: The Dalles, Oregon, USA
-          region: us-west1
-          zone: us-west1-a
-        - is_available: 1
-          location: Moncks Corner, South Carolina, USA
-          region: us-east1
-          zone: us-east1-b
-    AvailableZone:
-      type: object
-      properties:
-        is_available:
-          type: integer
-          enum:
-          - 0
-          - 1
-          description: Indicates if the zone is available (1) or not (0)
-        location:
-          type: string
-          description: Full name of the region
-        region:
-          type: string
-          description: The region identifier
-        zone:
-          type: string
-          description: The specific zone identifier
-    Record:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: The ID of the record
-        name:
-          type: string
-          description: The name of the record (FQDN)
-        value:
-          type: string
-          description: The value of the record
-        type:
-          type: string
-          description: The type of the record (A, AAAA, CNAME, MX, etc.)
-          enum:
-          - SOA
-          - A
-          - TXT
-          - NS
-          - CNAME
-          - MX
-          - NAPTR
-          - PTR
-          - SRV
-          - SPF
-          - AAAA
-          - CAA
-        ttl:
-          type: integer
-          description: Time-to-live in seconds
-        priority:
-          type:
-          - integer
-          - 'null'
-          description: Priority field (used for MX and SRV records)
-        port:
-          type:
-          - integer
-          - 'null'
-          description: Port field (used for SRV records)
-        weight:
-          type:
-          - integer
-          - 'null'
-          description: Weight field (used for SRV records)
     UpdateRecordRequest:
       type: object
       required:
@@ -350,39 +337,6 @@ components:
         ttl: 3600
         value: 192.168.1.2
         type: A
-    ZoneListResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ZoneItem'
-      example:
-        status: ok
-        data:
-        - id: 1905
-          name: test.com
-          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
-        - id: 1906
-          name: test1.com
-          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
-    ZoneItem:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: The ID of the zone
-        name:
-          type: string
-          description: The name of the zone
-        nameservers:
-          type: string
-          description: JSON string containing an array of nameserver addresses
     CreateRecordRequest:
       type: object
       required:
@@ -429,81 +383,127 @@ components:
         type: A
         ttl: 300
         value: 192.168.1.1
-  parameters:
-    RecordId:
-      name: record_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    ZoneId:
-      name: zone_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    Authorization:
-      name: x-api-key
-      in: header
-      required: true
-      schema:
-        type: string
-      description: API key for authentication
-      example: API_KEY
-  responses:
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
+    Record:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the record
+        name:
+          type: string
+          description: The name of the record (FQDN)
+        value:
+          type: string
+          description: The value of the record
+        type:
+          type: string
+          description: The type of the record (A, AAAA, CNAME, MX, etc.)
+          enum:
+          - SOA
+          - A
+          - TXT
+          - NS
+          - CNAME
+          - MX
+          - NAPTR
+          - PTR
+          - SRV
+          - SPF
+          - AAAA
+          - CAA
+        ttl:
+          type: integer
+          description: Time-to-live in seconds
+        priority:
+          type:
+          - integer
+          - 'null'
+          description: Priority field (used for MX and SRV records)
+        port:
+          type:
+          - integer
+          - 'null'
+          description: Port field (used for SRV records)
+        weight:
+          type:
+          - integer
+          - 'null'
+          description: Weight field (used for SRV records)
+    ZoneListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ZoneItem'
+      example:
+        status: ok
+        data:
+        - id: 1905
+          name: test.com
+          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
+        - id: 1906
+          name: test1.com
+          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
+    AvailableZone:
+      type: object
+      properties:
+        is_available:
+          type: integer
+          enum:
+          - 0
+          - 1
+          description: Indicates if the zone is available (1) or not (0)
+        location:
+          type: string
+          description: Full name of the region
+        region:
+          type: string
+          description: The region identifier
+        zone:
+          type: string
+          description: The specific zone identifier
+    AvailableZonesResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailableZone'
+      example:
+        status: ok
+        data:
+        - is_available: 1
+          location: Council Bluffs, Iowa, USA
+          region: us-central1
+          zone: us-central1-c
+        - is_available: 1
+          location: The Dalles, Oregon, USA
+          region: us-west1
+          zone: us-west1-a
+        - is_available: 1
+          location: Moncks Corner, South Carolina, USA
+          region: us-east1
+          zone: us-east1-b
+    ZoneItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the zone
+        name:
+          type: string
+          description: The name of the zone
+        nameservers:
+          type: string
+          description: JSON string containing an array of nameserver addresses
