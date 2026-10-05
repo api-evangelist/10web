@@ -1,0 +1,12 @@
+{
+ "url": "https://apidocs.10web.io/spec/openapi.yaml",
+ "requested_url": "https://apidocs.10web.io/spec/openapi.yaml",
+ "status": 200,
+ "content_type": "application/octet-stream",
+ "bytes": 173320,
+ "sha256": "01afc9651dfca23e56b2a4d67470a543c2dfedc865a491fa7a37823d0306f9b6",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
