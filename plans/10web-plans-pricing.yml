@@ -1,0 +1,73 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://10web.io/pricing-platform/
+sources:
+- https://10web.io/pricing-platform/
+- https://10web.io/pricing/
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T104522
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-10-07'
+  evidence: Self-Hosted Agentic Website Builder
+  managed_tier: AI Starter
+published: true
+note: Subscription tiers for 10Web AI website platform; annual pricing noted (e.g. 12 months for $120).
+  Agency Pro is quote-based.
+plan_count: 6
+currency: USD
+plans:
+- name: AI Starter
+  price_text: $10 /mo
+  price: 10
+  currency: USD
+  period: month
+  unit: per website
+  included_quota: Websites 1, AI Credits 100/mo, SSD Storage 10GB, Monthly Visitors 10K, free custom domain
+    1 year
+  overage: $$10/site
+- name: AI Premium
+  price_text: $15 /mo
+  price: 15
+  currency: USD
+  period: month
+  unit: $7.5 per website
+  included_quota: Websites 2, AI Credits 200/mo, SSD Storage 15GB, Monthly Visitors 20K
+  overage: $$7.5/site
+- name: AI Ultimate
+  price_text: $22.5 /mo
+  price: 22.5
+  currency: USD
+  period: month
+  unit: $5.6 per website
+  included_quota: Websites 4, AI Credits 300/mo, SSD Storage 25GB, Monthly Visitors 50K
+  overage: $$5.6/site
+- name: Agency starter
+  price_text: $42.5 /mo
+  price: 42.5
+  currency: USD
+  period: month
+  unit: $4.2 per website
+  included_quota: Websites 10, AI Credits 400/mo, Monthly Visitors 80K, SSD Storage 50GB
+  overage: $$4.2/site
+- name: Agency core
+  price_text: $80 /mo
+  price: 80
+  currency: USD
+  period: month
+  unit: $4 per website
+  included_quota: Websites 20, AI Credits 600/mo, Monthly Visitors 120K, SSD Storage 120GB; 10Web billing
+    transaction fee 7%
+  overage: $$4/site
+- name: Agency Pro
+  price_text: Custom
+  period: none
+  unit: As low as $2.5 per website
+  included_quota: Websites 50+, AI Credits 800/mo+, Custom visitors/storage
+  overage: As low as $2.5/site
