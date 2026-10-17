@@ -729,27 +729,6 @@ paths:
       operationId: postV1HostingClone
       x-operation-id-source: derived
 components:
-  parameters:
-    WebsiteId:
-      name: website_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    Authorization:
-      name: x-api-key
-      in: header
-      required: true
-      schema:
-        type: string
-      description: API key for authentication
-      example: API_KEY
-    StagingWebsiteId:
-      name: staging_website_id
-      in: path
-      required: true
-      schema:
-        type: integer
   schemas:
     CreateWebsiteRequest:
       type: object
@@ -809,32 +788,6 @@ components:
         status: ok
         data:
           website_id: 15604
-    InstanceInfoResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-          - error
-        data:
-          type: object
-          properties:
-            ip:
-              type: string
-              description: IP address of the instance
-            location:
-              type: string
-              description: Full name of the region
-            region:
-              type: string
-              description: Region identifier of the instance
-      example:
-        status: ok
-        data:
-          ip: 34.172.74.94
-          location: Council Bluffs, Iowa, USA
-          region: us-central1-c
     UserInfoResponse:
       type: object
       properties:
@@ -905,35 +858,33 @@ components:
           - error
       example:
         status: ok
+    InstanceInfoResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: object
+          properties:
+            ip:
+              type: string
+              description: IP address of the instance
+            location:
+              type: string
+              description: Full name of the region
+            region:
+              type: string
+              description: Region identifier of the instance
+      example:
+        status: ok
+        data:
+          ip: 34.172.74.94
+          location: Council Bluffs, Iowa, USA
+          region: us-central1-c
   responses:
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
     Unauthorized:
       description: Unauthorized access
       content:
@@ -948,6 +899,20 @@ components:
               message:
                 type: string
                 example: Unauthorized access
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
     BadRequest:
       description: Bad request
       content:
@@ -962,3 +927,38 @@ components:
               message:
                 type: string
                 example: Invalid request parameters
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+  parameters:
+    WebsiteId:
+      name: website_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
+    StagingWebsiteId:
+      name: staging_website_id
+      in: path
+      required: true
+      schema:
+        type: integer

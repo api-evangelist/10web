@@ -215,84 +215,6 @@ paths:
       operationId: postV1HostingZoneByZoneIdRecordsByRecordId
       x-operation-id-source: derived
 components:
-  responses:
-    TooManyRequests:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Too many requests. Please try again later.
-    InternalServerError:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Something went wrong
-    Unauthorized:
-      description: Unauthorized access
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Unauthorized access
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - error
-              message:
-                type: string
-                example: Invalid request parameters
-  parameters:
-    Authorization:
-      name: x-api-key
-      in: header
-      required: true
-      schema:
-        type: string
-      description: API key for authentication
-      example: API_KEY
-    RecordId:
-      name: record_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    ZoneId:
-      name: zone_id
-      in: path
-      required: true
-      schema:
-        type: integer
   schemas:
     UpdateRecordRequest:
       type: object
@@ -337,52 +259,18 @@ components:
         ttl: 3600
         value: 192.168.1.2
         type: A
-    CreateRecordRequest:
+    ZoneItem:
       type: object
-      required:
-      - type
-      - ttl
-      - value
       properties:
+        id:
+          type: integer
+          description: The ID of the zone
         name:
           type: string
-          description: Record name (without zone name, will be appended automatically)
-        type:
+          description: The name of the zone
+        nameservers:
           type: string
-          description: The type of the record
-          enum:
-          - SOA
-          - A
-          - TXT
-          - NS
-          - CNAME
-          - MX
-          - NAPTR
-          - PTR
-          - SRV
-          - SPF
-          - AAAA
-          - CAA
-        ttl:
-          type: integer
-          description: Time-to-live in seconds
-        value:
-          type: string
-          description: The value of the record
-        priority:
-          type: integer
-          description: Priority field (required for MX and SRV records)
-        port:
-          type: integer
-          description: Port field (required for SRV records)
-        weight:
-          type: integer
-          description: Weight field (required for SRV records)
-      example:
-        name: www
-        type: A
-        ttl: 300
-        value: 192.168.1.1
+          description: JSON string containing an array of nameserver addresses
     Record:
       type: object
       properties:
@@ -429,45 +317,52 @@ components:
           - integer
           - 'null'
           description: Weight field (used for SRV records)
-    ZoneListResponse:
+    CreateRecordRequest:
       type: object
+      required:
+      - type
+      - ttl
+      - value
       properties:
-        status:
+        name:
           type: string
+          description: Record name (without zone name, will be appended automatically)
+        type:
+          type: string
+          description: The type of the record
           enum:
-          - ok
-          - error
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ZoneItem'
-      example:
-        status: ok
-        data:
-        - id: 1905
-          name: test.com
-          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
-        - id: 1906
-          name: test1.com
-          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
-    AvailableZone:
-      type: object
-      properties:
-        is_available:
+          - SOA
+          - A
+          - TXT
+          - NS
+          - CNAME
+          - MX
+          - NAPTR
+          - PTR
+          - SRV
+          - SPF
+          - AAAA
+          - CAA
+        ttl:
           type: integer
-          enum:
-          - 0
-          - 1
-          description: Indicates if the zone is available (1) or not (0)
-        location:
+          description: Time-to-live in seconds
+        value:
           type: string
-          description: Full name of the region
-        region:
-          type: string
-          description: The region identifier
-        zone:
-          type: string
-          description: The specific zone identifier
+          description: The value of the record
+        priority:
+          type: integer
+          description: Priority field (required for MX and SRV records)
+        port:
+          type: integer
+          description: Port field (required for SRV records)
+        weight:
+          type: integer
+          description: Weight field (required for SRV records)
+      example:
+        name: www
+        type: A
+        ttl: 300
+        value: 192.168.1.1
     AvailableZonesResponse:
       type: object
       properties:
@@ -495,15 +390,120 @@ components:
           location: Moncks Corner, South Carolina, USA
           region: us-east1
           zone: us-east1-b
-    ZoneItem:
+    AvailableZone:
       type: object
       properties:
-        id:
+        is_available:
           type: integer
-          description: The ID of the zone
-        name:
+          enum:
+          - 0
+          - 1
+          description: Indicates if the zone is available (1) or not (0)
+        location:
           type: string
-          description: The name of the zone
-        nameservers:
+          description: Full name of the region
+        region:
           type: string
-          description: JSON string containing an array of nameserver addresses
+          description: The region identifier
+        zone:
+          type: string
+          description: The specific zone identifier
+    ZoneListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - error
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ZoneItem'
+      example:
+        status: ok
+        data:
+        - id: 1905
+          name: test.com
+          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
+        - id: 1906
+          name: test1.com
+          nameservers: '["NS1", "NS2", "NS3", "NS4"]'
+  responses:
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Unauthorized access
+    InternalServerError:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Something went wrong
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Invalid request parameters
+    TooManyRequests:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - error
+              message:
+                type: string
+                example: Too many requests. Please try again later.
+  parameters:
+    Authorization:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+      example: API_KEY
+    ZoneId:
+      name: zone_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    RecordId:
+      name: record_id
+      in: path
+      required: true
+      schema:
+        type: integer
