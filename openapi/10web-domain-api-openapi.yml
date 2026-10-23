@@ -328,3 +328,9 @@ components:
           scheme: http
           site_url: https://testdomain.com
           updated_at: '2024-10-10 11:17:04'
+x-provenance:
+  method: harvested
+  publisher: 10Web
+  source: https://apidocs.10web.io/spec/openapi.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
