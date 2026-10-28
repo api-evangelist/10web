@@ -64,6 +64,148 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-10Web is a company surfaced as a portfolio company of sierra-ventures and added to the API Evangelist network as a stub for enrichment. Sector: ai. This profile is a lead awaiting the enrichment pipeline.
+10Web is an AI-powered website builder platform that generates, hosts, and manages full WordPress websites on managed infrastructure, powering more than two million websites. Its public REST API — the 10Web Website Builder API (V1) — lets SaaS, agency, and hosting platforms embed 10Web's AI website generation, WordPress hosting, domains, DNS, SSL, backups, and staging as a white-label solution. The API exposes 69 operations across websites, AI/Vibe Coding content generation, domains and DNS zones, SSL certificates, backups, cache and PHP management, subdomains, the page builder, and signed webhooks, all authenticated with an x-api-key header against https://api.10web.io. Originally added to the API Evangelist network as a Sierra Ventures portfolio lead, this profile has been enriched from 10Web's public developer surface.
 
-Backed by: sierra-ventures — https://10web.io/
+**Areas:** Company · Artificial Intelligence · Website Builder · WordPress · Hosting · Website Generation · No-Code
+
+## 10Web on APIs.io
+
+Everything profiled for 10Web is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/10web/](https://apis.io/providers/10web/)** — or go straight to one of the APIs or properties below.
+
+### APIs (13)
+
+- [10Web Account API](https://apis.io/apis/10web/10web-account-api/) — Operations for managing account-level resources
+- [10Web Backup API](https://apis.io/apis/10web/10web-backup-api/) — Operations for backup management
+- [10Web Builder API](https://apis.io/apis/10web/10web-builder-api/) — Operations for website builder and page management
+- [10Web Cache API](https://apis.io/apis/10web/10web-cache-api/) — Operations for cache management
+- [10Web Certificate API](https://apis.io/apis/10web/10web-certificate-api/) — Operations for SSL certificate management
+- [10Web Domain API](https://apis.io/apis/10web/10web-domain-api/) — Operations for domain management
+- [10Web PHP Management API](https://apis.io/apis/10web/10web-php-management-api/) — Operations for PHP version management
+- [10Web Section Based AI API](https://apis.io/apis/10web/10web-section-based-ai-api/) — Operations for AI-powered features
+- [10Web Vibe Coding API](https://apis.io/apis/10web/10web-vibe-coding-api/) — Operations for WordPress Vibe Coding - AI-powered website content generation
+- [10Web Website API](https://apis.io/apis/10web/10web-website-api/) — Operations for website creation and management
+- [10Web WP Autologin API](https://apis.io/apis/10web/10web-wp-autologin-api/) — Operations for secure WordPress admin panel autologin functionality
+- [10Web Zone API](https://apis.io/apis/10web/10web-zone-api/) — Operations for DNS zone management
+- [10Web Sub Domain API](https://apis.io/apis/10web/10web-sub-domain-api/) — Operations for subdomain management
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [10Web Webhooks](https://apis.io/asyncapis/10web/10web-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [10web-mcp.yml](https://apis.io/servers/10web/10web-mcp-yml/)
+
+#### Collections (13)
+
+Postman and Open Collection request collections.
+
+- [10Web API V1 Account API](https://apis.io/collections/10web/open-10web-account-api/)
+- [10Web API V1 Account Backup API](https://apis.io/collections/10web/open-10web-backup-api/)
+- [10Web API V1 Account Builder API](https://apis.io/collections/10web/open-10web-builder-api/)
+- [10Web API V1 Account Cache API](https://apis.io/collections/10web/open-10web-cache-api/)
+- [10Web API V1 Account Certificate API](https://apis.io/collections/10web/open-10web-certificate-api/)
+- [10Web API V1 Account Domain API](https://apis.io/collections/10web/open-10web-domain-api/)
+- [10Web API V1 Account PHP Management API](https://apis.io/collections/10web/open-10web-php-management-api/)
+- [10Web API V1 Account Section Based AI API](https://apis.io/collections/10web/open-10web-section-based-ai-api/)
+- [10Web API V1 Account Subdomain API](https://apis.io/collections/10web/open-10web-subdomain-api/)
+- [10Web API V1 Account Vibe Coding API](https://apis.io/collections/10web/open-10web-vibe-coding-api/)
+- [10Web API V1 Account Website API](https://apis.io/collections/10web/open-10web-website-api/)
+- [10Web API V1 Account WP Autologin API](https://apis.io/collections/10web/open-10web-wp-autologin-api/)
+- [10Web API V1 Account Zone API](https://apis.io/collections/10web/open-10web-zone-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [10Web Openapi Overlay](https://apis.io/overlays/10web/10web-openapi-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [10Web Authentication](https://apis.io/security/10web/10web-authentication/)
+- [10Web Domain Security](https://apis.io/security/10web/10web-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [10Web Plans Pricing](https://apis.io/plans/10web/10web-plans-pricing/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://10web.io/)
+- [Documentation](https://help.10web.io/hc/en-us/articles/27304964365586-Introduction-to-10Web-API)
+- [Getting started](https://10web.io/website-builder-api/)
+- [API reference](https://apidocs.10web.io/)
+- [Pricing](https://10web.io/pricing/)
+- [Sign up](https://my.10web.io/login)
+- [Support](https://help.10web.io/hc/en-us)
+- [Blog](https://10web.io/blog/)
+- [Terms of service](https://10web.io/legal/terms-of-service/)
+- [Privacy policy](https://10web.io/legal/privacy-policy/)
+- [Status](https://status.10web.io/)
+
+## API Evangelist rating
+
+**Kin Score 49.8** — developing · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 50.1 |
+| Contract governance | 4.5 |
+| Operational transparency | 26.3 |
+| Developer ergonomics | 58.9 |
+| Access clarity | 63.2 |
+
+**Agent readiness 25.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 22.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/10web/](https://apis.io/providers/10web/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for 10Web: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/10web/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
