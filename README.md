@@ -122,11 +122,20 @@ Postman and Open Collection request collections.
 - [10Web API V1 Account WP Autologin API](https://apis.io/collections/10web/open-10web-wp-autologin-api/)
 - [10Web API V1 Account Zone API](https://apis.io/collections/10web/open-10web-zone-api/)
 
-#### Overlays (1)
+#### Overlays (4)
 
 OpenAPI overlays, including conversational phrasing for each operation.
 
+- [10Web Account Api Certification Overlay](https://apis.io/overlays/10web/10web-account-api-certification-overlay/)
 - [10Web Openapi Overlay](https://apis.io/overlays/10web/10web-openapi-overlay/)
+- [10Web Vibe Coding Api Certification Overlay](https://apis.io/overlays/10web/10web-vibe-coding-api-certification-overlay/)
+- [10Web Zone Api Certification Overlay](https://apis.io/overlays/10web/10web-zone-api-certification-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [10Web API Rules](https://apis.io/rules/10web/10web-rules/)
 
 #### Security (2)
 
@@ -135,11 +144,18 @@ Authentication, trust centre, and vulnerability disclosure.
 - [10Web Authentication](https://apis.io/security/10web/10web-authentication/)
 - [10Web Domain Security](https://apis.io/security/10web/10web-domain-security/)
 
-#### Plans and pricing (1)
+#### Plans and pricing (2)
 
 Published plans, tiers and prices.
 
 - [10Web Plans Pricing](https://apis.io/plans/10web/10web-plans-pricing/)
+- [10Web Price Estimates](https://apis.io/plans/10web/10web-price-estimates/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [10Web Finops](https://apis.io/finops/10web/10web-finops/)
 
 ## Where to find this API
 
@@ -159,18 +175,18 @@ Links to the company's own pages. This repository publishes no copy of their spe
 
 ## API Evangelist rating
 
-**Kin Score 49.8** — developing · rubric 0.25.0 · scored 2026-10-23
+**Kin Score 53.3** — developing · rubric 0.28.1 · scored 2026-11-21
 
 | Facet | Score |
 |---|---|
 | Discoverability | 73.2 |
-| Contract quality | 50.1 |
-| Contract governance | 4.5 |
-| Operational transparency | 26.3 |
+| Contract quality | 54.8 |
+| Contract governance | 18.2 |
+| Operational transparency | 23.8 |
 | Developer ergonomics | 58.9 |
-| Access clarity | 63.2 |
+| Access clarity | 72.3 |
 
-**Agent readiness 26.3** — agent-aware
+**Agent readiness 30.4** — agent-ready
 
 | Agent-readiness dimension | Result |
 |---|---|
@@ -180,7 +196,7 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | MCP Server | — |
 | Auth Clarity | bearer (partial credit) |
 | Idempotency | — |
-| Error Semantics | derived (partial credit) |
+| Error Semantics | verified |
 | OpenAPI Examples | partial |
 | Rate Limit Signal | — |
 | Event Surface Described | yes |
@@ -195,8 +211,12 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | Agentic Commerce | — |
 | Pagination Ratio | — |
 | Operation Distinctiveness | distinct |
+| MCP Tool Quality | na |
+| Onboarding Descriptor | — |
+| Dns Aid Index | na |
+| Markdown Negotiation | na |
 
-**Regulatory alignment 22.7** — Horizontal (data, software, accessibility, platform)
+**Regulatory alignment 17.3** — Horizontal (data, software, accessibility, platform)
 
 The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/10web/](https://apis.io/providers/10web/).
 
